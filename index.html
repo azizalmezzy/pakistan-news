@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>غرفة الأخبار السياسية — باكستان</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2f5; color: #1a1a1a; direction: rtl; min-height: 100vh; }
+.topbar { background: #000; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
+.topbar-logo { color: #fff; font-size: 22px; font-weight: 800; }
+.topbar-dot { color: #1DA1F2; font-size: 20px; margin: 0 4px; }
+.topbar-title { color: #fff; font-size: 16px; font-weight: 600; }
+.topbar-sub { color: #888; font-size: 11px; margin-top: 2px; }
+.container { max-width: 900px; margin: 0 auto; padding: 20px 16px; }
+.setup-card { background: #fff; border-radius: 12px; border: 1px solid #e4e4e4; padding: 18px 20px; margin-bottom: 14px; }
+.setup-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 12px; color: #555; text-transform: uppercase; }
+.field-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.field-row label { font-size: 13px; color: #555; white-space: nowrap; min-width: 110px; }
+.field-row input { flex: 1; min-width: 200px; font-size: 13px; padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; color: #1a1a1a; direction: ltr; }
+.field-row input:focus { outline: none; border-color: #1DA1F2; }
+.help-link { font-size: 12px; color: #1DA1F2; text-decoration: none; padding: 7px 12px; border: 1px solid #1DA1F2; border-radius: 8px; white-space: nowrap; }
+.notice { font-size: 12px; color: #777; background: #f8f8f8; border-radius: 8px; padding: 8px 12px; margin-top: 10px; line-height: 1.6; }
+.controls-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+.btn-fetch { padding: 9px 22px; background: #1DA1F2; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.15s; }
+.btn-fetch:hover { background: #0d8ecf; }
+.btn-fetch:disabled { opacity: 0.5; cursor: not-allowed; }
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+.filter-label { font-size: 12px; color: #888; }
+.filter-chip { padding: 5px 14px; border-radius: 20px; border: 1.5px solid #ddd; font-size: 12px; font-weight: 600; cursor: pointer; background: #fff; transition: all 0.15s; white-space: nowrap; }
+.f-all.on { background:#1a1a1a; color:#fff; border-color:#1a1a1a; }
+.f-pos.on { background:#2e7d32; color:#fff; border-color:#2e7d32; }
+.f-neu.on { background:#1565c0; color:#fff; border-color:#1565c0; }
+.f-neg.on { background:#c62828; color:#fff; border-color:#c62828; }
+.stats-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.stat { background: #fff; border: 1px solid #e4e4e4; border-radius: 10px; padding: 10px 16px; flex: 1; min-width: 70px; text-align: center; }
+.stat-n { font-size: 22px; font-weight: 800; color: #1DA1F2; }
+.stat-l { font-size: 11px; color: #999; margin-top: 2px; }
+.news-list { display: flex; flex-direction: column; gap: 14px; }
+.news-card { background: #fff; border: 1px solid #e4e4e4; border-radius: 14px; padding: 18px 20px; transition: box-shadow 0.15s; border-right: 5px solid #e0e0e0; }
+.news-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.news-card.pos { border-right-color: #2e7d32; }
+.news-card.neu { border-right-color: #1565c0; }
+.news-card.neg { border-right-color: #c62828; }
+.card-top { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.badge-src   { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 5px; white-space: nowrap; flex-shrink: 0; }
+.badge-topic { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px; background: #EEF6FF; color: #1565c0; flex-shrink: 0; }
+.badge-sent  { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+.badge-sent.pos  { background: #e8f5e9; color: #2e7d32; }
+.badge-sent.neu  { background: #e3f2fd; color: #1565c0; }
+.badge-sent.neg  { background: #fdecea; color: #c62828; }
+.badge-sent.pend { background: #f5f5f5; color: #aaa; font-size: 10px; }
+.card-title { font-size: 14px; font-weight: 600; line-height: 1.5; flex: 1; direction: ltr; text-align: left; min-width: 180px; }
+.card-title.ar { direction: rtl; text-align: right; }
+.editor-note { font-size: 12px; border-radius: 8px; padding: 7px 11px; margin: 8px 0 4px; line-height: 1.6; display: none; }
+.editor-note.pos { background: #f1f8e9; border: 1px solid #dcedc8; color: #33691e; }
+.editor-note.neu { background: #e3f2fd; border: 1px solid #bbdefb; color: #0d47a1; }
+.editor-note.neg { background: #fdecea; border: 1px solid #ffcdd2; color: #b71c1c; }
+.card-meta { display: flex; gap: 14px; font-size: 11px; color: #aaa; margin-bottom: 14px; margin-top: 8px; flex-wrap: wrap; }
+.src-link { color: #1DA1F2; text-decoration: none; }
+.divider { border: none; border-top: 1px solid #f0f0f0; margin: 14px 0; }
+.tweet-label { font-size: 10px; color: #aaa; margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
+.tweet-box { background: #f7f9fa; border: 1px solid #eee; border-radius: 10px; padding: 12px 14px; font-size: 14px; color: #1a1a1a; line-height: 1.8; white-space: pre-wrap; min-height: 58px; direction: rtl; margin-bottom: 12px; }
+.tweet-ph { color: #ccc; font-size: 12px; }
+.card-footer { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.btn { padding: 7px 15px; font-size: 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-weight: 600; border: none; transition: all 0.15s; }
+.btn-gen { background: #1DA1F2; color: #fff; } .btn-gen:hover { background: #0d8ecf; } .btn-gen:disabled { opacity:.5; cursor:not-allowed; }
+.btn-out { background: #fff; color: #333; border: 1px solid #ddd; } .btn-out:hover { background: #f5f5f5; }
+.btn-ok  { background: #e6f4ea; color: #2e7d32; }
+.btn-x   { background: #000; color: #fff; }
+.char-info { font-size: 11px; color: #bbb; margin-right: auto; }
+.char-warn { color: #e53935 !important; font-weight: 700; }
+.empty { text-align: center; padding: 60px 20px; }
+.empty-icon { font-size: 52px; margin-bottom: 12px; }
+.empty p { font-size: 14px; color: #aaa; }
+.error-msg { background: #fdecea; color: #c62828; border: 1px solid #f5c6cb; border-radius: 10px; padding: 12px 16px; font-size: 13px; margin-bottom: 14px; }
+.progress-bar  { background: #e3f2fd; border-radius: 8px; height: 6px; margin-bottom: 14px; overflow: hidden; display: none; }
+.progress-fill { background: #1DA1F2; height: 100%; border-radius: 8px; transition: width .3s; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin   { display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px; }
+.spin-b { display:inline-block;width:10px;height:10px;border:2px solid #ddd;border-top-color:#1DA1F2;border-radius:50%;animation:spin .7s linear infinite; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-logo">𝕏</div>
+  <div class="topbar-dot">·</div>
+  <div>
+    <div class="topbar-title">غرفة الأخبار السياسية — باكستان</div>
+    <div class="topbar-sub">تصنيف تلقائي: داعم · محايد · معارض — أنت رئيس التحرير</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="setup-card">
+    <h3>🔑 مفتاح Claude</h3>
+    <div class="field-row">
+      <label>Anthropic API Key:</label>
+      <input type="password" id="claudeKey" placeholder="sk-ant-..." />
+      <a href="https://console.anthropic.com/settings/keys" target="_blank" class="help-link">← احصل على مفتاح</a>
+    </div>
+    <div class="notice">
+      💡 المفتاح يُستخدم للتصنيف التلقائي وتوليد التغريدات — يُحفظ في متصفحك فقط ولا يُرسل للسيرفر.
+    </div>
+  </div>
+
+  <div class="controls-row">
+    <button class="btn-fetch" id="fetchBtn" onclick="fetchAll()">🔄 سحب الأخبار وتصنيفها</button>
+  </div>
+
+  <div class="progress-bar" id="progressBar">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+
+  <div class="filter-row" id="filterRow" style="display:none">
+    <span class="filter-label">عرض:</span>
+    <div class="filter-chip f-all on" id="chip-all" onclick="applyFilter('all')">📋 الكل</div>
+    <div class="filter-chip f-pos"     id="chip-pos" onclick="applyFilter('pos')">✅ داعم لباكستان</div>
+    <div class="filter-chip f-neu"     id="chip-neu" onclick="applyFilter('neu')">🔵 محايد</div>
+    <div class="filter-chip f-neg"     id="chip-neg" onclick="applyFilter('neg')">🔴 معارض / ناقد</div>
+  </div>
+
+  <div id="errorBox" style="display:none" class="error-msg"></div>
+
+  <div id="statsBar" style="display:none" class="stats-bar">
+    <div class="stat"><div class="stat-n" id="sN">0</div><div class="stat-l">خبر</div></div>
+    <div class="stat"><div class="stat-n" id="sPos" style="color:#2e7d32">0</div><div class="stat-l">داعم</div></div>
+    <div class="stat"><div class="stat-n" id="sNeu">0</div><div class="stat-l">محايد</div></div>
+    <div class="stat"><div class="stat-n" id="sNeg" style="color:#c62828">0</div><div class="stat-l">معارض</div></div>
+    <div class="stat"><div class="stat-n" id="sT">0</div><div class="stat-l">تغريدة</div></div>
+    <div class="stat"><div class="stat-n" id="sTm">—</div><div class="stat-l">تحديث</div></div>
+  </div>
+
+  <div class="news-list" id="newsList">
+    <div class="empty"><div class="empty-icon">🏛️</div><p>اضغط "سحب الأخبار وتصنيفها" للبدء</p></div>
+  </div>
+</div>
+
+<script>
+let allArticles = [], filtered = [], twCount = 0, twMap = {}, currentFilter = 'all';
+
+window.onload = () => {
+  const k = localStorage.getItem('pak_claude_key');
+  if (k) document.getElementById('claudeKey').value = k;
+};
+function saveKey() {
+  const k = document.getElementById('claudeKey').value.trim();
+  if (k) localStorage.setItem('pak_claude_key', k);
+}
+function showError(msg) {
+  const b = document.getElementById('errorBox');
+  b.textContent = '⚠️ ' + msg; b.style.display = 'block';
+}
+function ago(d) {
+  if (!d) return '';
+  const m = Math.floor((Date.now() - new Date(d)) / 60000);
+  if (isNaN(m) || m < 0) return '';
+  if (m < 1) return 'الآن';
+  if (m < 60) return 'منذ ' + m + ' د';
+  const h = Math.floor(m / 60);
+  if (h < 24) return 'منذ ' + h + ' س';
+  return 'منذ ' + Math.floor(h / 24) + ' يوم';
+}
+
+async function fetchAll() {
+  saveKey();
+  const cKey = document.getElementById('claudeKey').value.trim();
+  if (!cKey) { showError('أدخل مفتاح Claude أولاً'); return; }
+  const btn = document.getElementById('fetchBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> جاري السحب...';
+  document.getElementById('errorBox').style.display = 'none';
+
+  try {
+    const r = await fetch('/api/news');
+    const data = await r.json();
+    if (!data.articles || !data.articles.length) {
+      showError('لم تُعثر على أخبار');
+      btn.disabled = false; btn.innerHTML = '🔄 سحب الأخبار وتصنيفها'; return;
+    }
+    allArticles = data.articles;
+    filtered = [...allArticles];
+    twMap = {}; twCount = 0;
+    renderAll(filtered);
+    document.getElementById('sN').textContent   = allArticles.length;
+    document.getElementById('sPos').textContent = 0;
+    document.getElementById('sNeu').textContent = 0;
+    document.getElementById('sNeg').textContent = 0;
+    document.getElementById('sT').textContent   = 0;
+    document.getElementById('sTm').textContent  = new Date().toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'});
+    document.getElementById('statsBar').style.display = 'flex';
+    document.getElementById('filterRow').style.display = 'flex';
+
+    btn.innerHTML = '<span class="spin"></span> جاري التصنيف...';
+    const pb = document.getElementById('progressBar');
+    pb.style.display = 'block';
+    let done = 0;
+    await Promise.all(allArticles.map((a, i) =>
+      classifyOne(a, i, cKey).then(() => {
+        done++;
+        document.getElementById('progressFill').style.width = (done / allArticles.length * 100) + '%';
+        updateStats();
+      })
+    ));
+    pb.style.display = 'none';
+    applyFilter(currentFilter);
+  } catch(e) { showError('خطأ: ' + e.message); }
+
+  btn.disabled = false;
+  btn.innerHTML = '🔄 سحب الأخبار وتصنيفها';
+}
+
+async function classifyOne(a, i, cKey) {
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'x-api-key':cKey,
+                 'anthropic-version':'2023-06-01', 'anthropic-dangerous-direct-browser-access':'true' },
+      body: JSON.stringify({ model:'claude-haiku-4-5-20251001', max_tokens:100,
+        messages:[{ role:'user', content:
+          'صنّف هذا الخبر من منظور موقفه تجاه باكستان كدولة.\n' +
+          'أجب بـ JSON فقط: {"s":"pos","n":"سبب قصير بالعربية"}\n' +
+          'قيم s: pos=داعم، neu=محايد، neg=معارض\n' +
+          'الخبر: ' + a.title + '\nالموضوع: ' + a.topic
+        }]
+      })
+    });
+    const d = await r.json();
+    if (d.error) throw new Error(d.error.message);
+    const parsed = JSON.parse((d.content?.[0]?.text || '{}').trim());
+    allArticles[i].sentiment  = parsed.s || 'neu';
+    allArticles[i].editorNote = parsed.n || '';
+  } catch(e) {
+    allArticles[i].sentiment = 'neu';
+    allArticles[i].editorNote = '';
+  }
+  updateCardUI(i);
+}
+
+function updateCardUI(i) {
+  const card = document.querySelector('[data-idx="' + i + '"]');
+  if (!card) return;
+  const a = allArticles[i], s = a.sentiment;
+  card.className = 'news-card ' + s;
+  const badge = card.querySelector('.badge-sent');
+  if (badge) { badge.className = 'badge-sent ' + s; badge.textContent = s==='pos'?'✅ داعم':s==='neg'?'🔴 معارض':'🔵 محايد'; }
+  const note = card.querySelector('.editor-note');
+  if (note && a.editorNote) { note.textContent = '📝 ' + a.editorNote; note.style.display = 'block'; note.className = 'editor-note ' + s; }
+}
+
+function updateStats() {
+  const c = allArticles.filter(a => a.sentiment);
+  document.getElementById('sPos').textContent = c.filter(a=>a.sentiment==='pos').length;
+  document.getElementById('sNeu').textContent = c.filter(a=>a.sentiment==='neu').length;
+  document.getElementById('sNeg').textContent = c.filter(a=>a.sentiment==='neg').length;
+}
+
+function applyFilter(f) {
+  currentFilter = f;
+  ['all','pos','neu','neg'].forEach(x => {
+    document.getElementById('chip-'+x).className = 'filter-chip f-'+x+(f===x?' on':'');
+  });
+  filtered = f==='all' ? [...allArticles] : allArticles.filter(a=>a.sentiment===f);
+  renderAll(filtered);
+  document.getElementById('sN').textContent = filtered.length;
+}
+
+const SC=[['#e8f5e9','#2e7d32'],['#e3f2fd','#1565c0'],['#fff3e0','#e65100'],['#fce4ec','#880e4f'],
+          ['#f3e5f5','#6a1b9a'],['#fffde7','#f57f17'],['#e0f7fa','#006064'],['#fbe9e7','#bf360c'],['#e8eaf6','#283593']];
+const CM={}; let ci=0;
+function gc(s){if(!CM[s])CM[s]=SC[ci++%SC.length];return CM[s];}
+
+function renderAll(list) {
+  const el = document.getElementById('newsList');
+  if (!list.length) { el.innerHTML='<div class="empty"><div class="empty-icon">🔍</div><p>لا توجد نتائج</p></div>'; return; }
+  el.innerHTML = list.map(a => {
+    const i = allArticles.indexOf(a);
+    const [bg,fg] = gc(a.source);
+    const isAr = /[\u0600-\u06FF]/.test(a.title);
+    const s = a.sentiment;
+    const sb = s ? '<span class="badge-sent '+s+'">'+(s==='pos'?'✅ داعم':s==='neg'?'🔴 معارض':'🔵 محايد')+'</span>'
+                 : '<span class="badge-sent pend"><span class="spin-b"></span> تصنيف...</span>';
+    return '<div class="news-card '+(s||'')+'" data-idx="'+i+'">' +
+      '<div class="card-top">' +
+        '<span class="badge-src" style="background:'+bg+';color:'+fg+'">'+a.source+'</span>' +
+        '<span class="badge-topic">'+a.topic+'</span>' + sb +
+        '<div class="card-title'+(isAr?' ar':'')+'">' + a.title + '</div>' +
+      '</div>' +
+      '<div class="editor-note '+(s||'')+'" style="display:'+(a.editorNote?'block':'none')+'">'+(a.editorNote?'📝 '+a.editorNote:'')+'</div>' +
+      '<div class="card-meta">' +
+        (a.publishedAt?'<span>🕐 '+ago(a.publishedAt)+'</span>':'') +
+        '<a href="'+a.url+'" target="_blank" class="src-link">🔗 المصدر</a>' +
+      '</div>' +
+      '<hr class="divider">' +
+      '<div class="tweet-label">𝕏 التغريدة</div>' +
+      '<div class="tweet-box" id="tb-'+i+'"><span class="tweet-ph">اضغط توليد تغريدة</span></div>' +
+      '<div class="card-footer">' +
+        '<button class="btn btn-gen" id="gen-'+i+'" onclick="genTweet('+i+')">✨ توليد تغريدة</button>' +
+        '<button class="btn btn-out" id="cp-'+i+'"  onclick="copyT('+i+')"   style="display:none">📋 نسخ</button>' +
+        '<button class="btn btn-x"   id="ox-'+i+'"  onclick="openX('+i+')"   style="display:none">𝕏 فتح في X</button>' +
+        '<span class="char-info" id="ch-'+i+'"></span>' +
+      '</div></div>';
+  }).join('');
+}
+
+async function genTweet(i) {
+  saveKey();
+  const cKey = document.getElementById('claudeKey').value.trim();
+  if (!cKey) { showError('أدخل مفتاح Claude'); return; }
+  const a = allArticles[i];
+  const tb = document.getElementById('tb-'+i);
+  const gb = document.getElementById('gen-'+i);
+  gb.disabled = true;
+  tb.innerHTML = '<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#888"><span class="spin-b"></span> جاري التوليد...</div>';
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':cKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({ model:'claude-haiku-4-5-20251001', max_tokens:350,
+        messages:[{role:'user',content:
+          'أنت محرر أخبار سياسية محترف.\n' +
+          'حوّل هذا الخبر إلى تغريدة بالعربية الفصحى البيضاء.\n\n' +
+          'القواعد: ابدأ بكلمة قوية (عاجل/باكستان/تطور/قرار/موقف/إعلان) · لغة محايدة مهنية · ' +
+          'هاشتاقان: #باكستان + هاشتاق سياسي مناسب · لا تذكر المصدر · 200-260 حرفاً · نص التغريدة فقط.\n\n' +
+          'الموضوع: '+a.topic+'\nالتصنيف: '+(a.sentiment==='pos'?'داعم':a.sentiment==='neg'?'معارض':'محايد')+'\nالعنوان: '+a.title
+        }]
+      })
+    });
+    const d = await r.json();
+    if (d.error) throw new Error(d.error.message);
+    const tweet = (d.content?.[0]?.text||'').trim();
+    if (!tweet) throw new Error('لم يُرجع نصاً');
+    tb.textContent = tweet; twMap[i] = tweet;
+    document.getElementById('cp-'+i).style.display = 'flex';
+    document.getElementById('ox-'+i).style.display = 'flex';
+    const len = tweet.length;
+    const ch = document.getElementById('ch-'+i);
+    ch.textContent = len+' / 280';
+    ch.className = 'char-info'+(len>270?' char-warn':'');
+    twCount++; document.getElementById('sT').textContent = twCount;
+  } catch(e) { tb.textContent = '⚠️ '+(e.message||'خطأ'); }
+  gb.disabled = false;
+}
+
+async function copyT(i) {
+  const t = twMap[i]; if (!t) return;
+  try {
+    await navigator.clipboard.writeText(t);
+    const b = document.getElementById('cp-'+i);
+    b.classList.add('btn-ok'); b.textContent = '✓ تم النسخ';
+    setTimeout(()=>{b.classList.remove('btn-ok'); b.textContent='📋 نسخ';}, 2000);
+  } catch(e){}
+}
+function openX(i) {
+  const t = twMap[i];
+  if (t) window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(t),'_blank');
+}
+</script>
+</body>
+</html>
