@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -195,13 +196,19 @@ async function fetchAll() {
     const pb = document.getElementById('progressBar');
     pb.style.display = 'block';
     let done = 0;
-    await Promise.all(allArticles.map((a, i) =>
-      classifyOne(a, i, cKey).then(() => {
-        done++;
-        document.getElementById('progressFill').style.width = (done / allArticles.length * 100) + '%';
-        updateStats();
-      })
-    ));
+    // تصنيف بدفعات من 3 لتجنب Overload
+    const BATCH = 3;
+    for (let b = 0; b < allArticles.length; b += BATCH) {
+      const batch = allArticles.slice(b, b + BATCH).map((a, j) =>
+        classifyOne(a, b + j, cKey).then(() => {
+          done++;
+          document.getElementById('progressFill').style.width = (done / allArticles.length * 100) + '%';
+          updateStats();
+        })
+      );
+      await Promise.all(batch);
+      if (b + BATCH < allArticles.length) await new Promise(r => setTimeout(r, 800));
+    }
     pb.style.display = 'none';
     applyFilter(currentFilter);
   } catch(e) { showError('خطأ: ' + e.message); }
