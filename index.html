@@ -114,6 +114,9 @@ body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2
     <div class="filter-chip"    id="chip-برلمان"      onclick="filterBy(this,'برلمان')">برلمان</div>
     <div class="filter-chip"    id="chip-قضاء"        onclick="filterBy(this,'قضاء')">قضاء</div>
     <div class="filter-chip"    id="chip-انتخابات"    onclick="filterBy(this,'انتخابات')">انتخابات</div>
+    <div class="filter-chip"    id="chip-الهند"        onclick="filterBy(this,'الهند')" style="background:#fff0f0;border-color:#ffcdd2;color:#c62828">🇮🇳 الهند</div>
+    <div class="filter-chip"    id="chip-أفغانستان"   onclick="filterBy(this,'أفغانستان')" style="background:#fff8e1;border-color:#ffe082;color:#f57f17">🇦🇫 أفغانستان</div>
+    <div class="filter-chip"    id="chip-أمن وتهريب"  onclick="filterBy(this,'أمن وتهريب')" style="background:#f3e5f5;border-color:#ce93d8;color:#6a1b9a">🚨 أمن وتهريب</div>
   </div>
 
   <div id="errorBox" style="display:none" class="error-msg"></div>
@@ -257,15 +260,16 @@ async function genTweet(i) {
       body:JSON.stringify({ model:'claude-haiku-4-5-20251001', max_tokens:350,
         messages:[{role:'user',content:
           'أنت سعودي متابع للشأن الباكستاني، تكتب تغريدات بالعامية السعودية.\n' +
-          'حوّل هذا الخبر إلى تغريدة سعودية تُظهر باكستان بصورة إيجابية أو صامدة.\n\n' +
-          'الأسلوب:\n' +
-          '- عامية سعودية طبيعية: يعني، والله، ما توقعنا، شي يفرح، ما يصير\n' +
-          '- ابدأ بجملة تشد القارئ وتحسسه إن في شي مهم صاير\n' +
-          '- أظهر الجانب الإنساني أو القوة أو الصمود الباكستاني\n' +
-          '- إذا الخبر سلبي: رغم الضغوط باكستان... أو العالم يراقب...\n' +
+          'حوّل هذا الخبر إلى تغريدة سعودية تدافع عن باكستان وتعبّر عن موقفها.\n\n' +
+          'إذا الموضوع "الهند": أسلوب دفاعي قوي يُظهر العدوان الهندي والصمود الباكستاني، يجوز الاستنكار والتحدي.\n' +
+          'إذا الموضوع "أفغانستان": أسلوب يُظهر الخطر القادم من الحدود وتضحيات باكستان في مواجهته.\n' +
+          'إذا الموضوع "أمن وتهريب": أسلوب يُظهر حجم التهديد ودور باكستان في مكافحته.\n' +
+          'بقية المواضيع: عامية سعودية دافئة تُظهر القوة والصمود الباكستاني.\n\n' +
+          'الأسلوب العام:\n' +
+          '- عامية سعودية طبيعية: يعني، والله، ما يصير، اللي يطلع\n' +
+          '- ابدأ بجملة تشد القارئ\n' +
           '- إيموجي واحد أو اثنين بس\n' +
           '- هاشتاقان: #باكستان + هاشتاق عربي مناسب\n' +
-          '- ما تنظّر وما تتهم أحد صراحة\n' +
           '- بين 180 و 240 حرف، نص التغريدة بس بدون مقدمة\n\n' +
           'الموضوع: ' + a.topic + '\n' +
           'الخبر: ' + a.title
