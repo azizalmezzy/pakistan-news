@@ -25,7 +25,20 @@ FEEDS = [
     {"label": "باكستان سياسة",          "url": "https://news.google.com/rss/search?q=%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86+%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9&hl=ar&gl=SA&ceid=SA:ar", "topic": "حكومة"},
     {"label": "باكستان دبلوماسية",      "url": "https://news.google.com/rss/search?q=%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86+%D8%AF%D8%A8%D9%84%D9%88%D9%85%D8%A7%D8%B3%D9%8A%D8%A9&hl=ar&gl=SA&ceid=SA:ar", "topic": "دبلوماسية"},
     {"label": "عمران خان",              "url": "https://news.google.com/rss/search?q=%D8%B9%D9%85%D8%B1%D8%A7%D9%86+%D8%AE%D8%A7%D9%86+%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86&hl=ar&gl=SA&ceid=SA:ar", "topic": "معارضة"},
-    {"label": "باكستان الهند كشمير",    "url": "https://news.google.com/rss/search?q=%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86+%D8%A7%D9%84%D9%87%D9%86%D8%AF+%D9%83%D8%B4%D9%85%D9%8A%D8%B1&hl=ar&gl=SA&ceid=SA:ar", "topic": "علاقات دولية"},
+    {"label": "باكستان الهند كشمير",    "url": "https://news.google.com/rss/search?q=%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86+%D8%A7%D9%84%D9%87%D9%86%D8%AF+%D9%83%D8%B4%D9%85%D9%8A%D8%B1&hl=ar&gl=SA&ceid=SA:ar", "topic": "الهند"},
+    # الهند
+    {"label": "Pakistan India Border",      "url": "https://news.google.com/rss/search?q=Pakistan+India+border+tension+attack&hl=en-US&gl=US&ceid=US:en",          "topic": "الهند"},
+    {"label": "Pakistan India Kashmir",     "url": "https://news.google.com/rss/search?q=Pakistan+India+Kashmir+conflict&hl=en-US&gl=US&ceid=US:en",               "topic": "الهند"},
+    {"label": "India Pakistan Military",    "url": "https://news.google.com/rss/search?q=India+Pakistan+military+aggression+ceasefire&hl=en-US&gl=US&ceid=US:en", "topic": "الهند"},
+    {"label": "India Pakistan Violation",   "url": "https://news.google.com/rss/search?q=India+Pakistan+LOC+violation+shelling&hl=en-US&gl=US&ceid=US:en",        "topic": "الهند"},
+    # أفغانستان
+    {"label": "Pakistan Afghanistan TTP",   "url": "https://news.google.com/rss/search?q=Pakistan+Afghanistan+TTP+attack&hl=en-US&gl=US&ceid=US:en",              "topic": "أفغانستان"},
+    {"label": "Pakistan Taliban Border",    "url": "https://news.google.com/rss/search?q=Pakistan+Taliban+border+tension&hl=en-US&gl=US&ceid=US:en",              "topic": "أفغانستان"},
+    {"label": "Pakistan Afghanistan Durand","url": "https://news.google.com/rss/search?q=Pakistan+Afghanistan+Durand+Line+clash&hl=en-US&gl=US&ceid=US:en",      "topic": "أفغانستان"},
+    # أمن وتهريب
+    {"label": "Pakistan Drug Smuggling",    "url": "https://news.google.com/rss/search?q=Pakistan+drug+smuggling+border+seizure&hl=en-US&gl=US&ceid=US:en",       "topic": "أمن وتهريب"},
+    {"label": "Pakistan Arms Smuggling",    "url": "https://news.google.com/rss/search?q=Pakistan+arms+weapons+smuggling&hl=en-US&gl=US&ceid=US:en",              "topic": "أمن وتهريب"},
+    {"label": "Pakistan Security Threat",   "url": "https://news.google.com/rss/search?q=Pakistan+security+threat+terrorism+attack&hl=en-US&gl=US&ceid=US:en",    "topic": "أمن وتهريب"},
 ]
 
 def parse_date(d):
