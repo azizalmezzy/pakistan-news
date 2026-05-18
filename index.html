@@ -53,9 +53,12 @@ body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2
 .btn-out { background: #fff; color: #333; border: 1px solid #ddd; } .btn-out:hover { background: #f5f5f5; }
 .btn-ok  { background: #e6f4ea; color: #2e7d32; }
 .btn-x   { background: #000; color: #fff; }
-.btn-img { background: #7c3aed; color: #fff; }
-.btn-img:hover { background: #6d28d9; }
-.btn-img:disabled { opacity:.5; cursor:not-allowed; }
+.btn-img  { background: #7c3aed; color: #fff; }
+.btn-img:hover  { background: #6d28d9; }
+.btn-img:disabled  { opacity:.5; cursor:not-allowed; }
+.btn-img2 { background: #0d8ecf; color: #fff; }
+.btn-img2:hover { background: #0a7ab5; }
+.btn-img2:disabled { opacity:.5; cursor:not-allowed; }
 .img-card { border-radius: 12px; overflow: hidden; margin-bottom:8px; }
 .img-card img { width: 100%; display: block; border-radius: 12px; }
 .img-actions { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
@@ -415,12 +418,14 @@ function renderAll(list) {
       '<hr class="divider">' +
       '<div class="tweet-label">𝕏 التغريدة</div>' +
       '<div class="tweet-box" id="tb-'+idx+'"><span class="tweet-ph">اضغط توليد تغريدة</span></div>' +
-      '<div id="img-box-'+idx+'" style="display:none;margin-bottom:12px"></div>' +
+      '<div id="img-box-'+idx+'"  style="display:none;margin-bottom:12px"></div>' +
+      '<div id="img-box2-'+idx+'" style="display:none;margin-bottom:12px"></div>' +
       '<div class="card-footer">' +
         '<button class="btn btn-gen" id="gen-'+idx+'" onclick="genTweet('+idx+')">✨ توليد تغريدة</button>' +
         '<button class="btn btn-out" id="cp-'+idx+'"  onclick="copyT('+idx+')"  style="display:none">📋 نسخ</button>' +
         '<button class="btn btn-x"   id="ox-'+idx+'"  onclick="openX('+idx+')"  style="display:none">𝕏 فتح في X</button>' +
-        '<button class="btn btn-img" id="img-'+idx+'" onclick="genImg('+idx+')"  style="display:none">🖼️ صورة</button>' +
+        '<button class="btn btn-img" id="img-'+idx+'"      onclick="genImg('+idx+')"    style="display:none">🎨 توليد صورة AI</button>' +
+        '<button class="btn btn-img2" id="img2-'+idx+'" onclick="fetchImg('+idx+')" style="display:none">📰 صورة الخبر</button>' +
         '<span class="char-info" id="ch-'+idx+'"></span>' +
       '</div></div>';
   }).join('');
@@ -465,6 +470,7 @@ async function genTweet(i) {
     document.getElementById('cp-'+i).style.display = 'flex';
     document.getElementById('ox-'+i).style.display = 'flex';
     document.getElementById('img-'+i).style.display = 'flex';
+    document.getElementById('img2-'+i).style.display = 'flex';
     const len = tweet.length;
     const ch = document.getElementById('ch-'+i);
     ch.textContent = len + ' / 280';
@@ -502,9 +508,29 @@ async function genImg(i) {
   imgBox.style.display = 'block';
   imgBox.innerHTML = '<div style="background:#f3f4f6;border-radius:12px;height:200px;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:13px">جاري توليد الصورة...</div>';
 
-  // بناء prompt مناسب للخبر
-  const prompt = 'Professional news photo, Pakistani politics, ' + a.topic + ', ' +
-    a.title.slice(0, 80) + ', photorealistic, high quality, editorial style, no text, no watermark';
+  // بناء prompt ذكي حسب الموضوع
+  const topicVisuals = {
+    'حكومة':        'Pakistani government officials in meeting room, Islamabad parliament building, South Asian politicians',
+    'انتخابات':     'Pakistani election, voting booths, ballot boxes, Pakistani voters, Islamabad',
+    'دبلوماسية':    'diplomatic meeting, Pakistani foreign minister, handshake, conference room, flags',
+    'علاقات دولية': 'international summit, Pakistani delegation, world leaders meeting, United Nations',
+    'الهند':        'Pakistan India border, Line of Control, Pakistani soldiers at border post, Kashmir mountains',
+    'أفغانستان':    'Pakistan Afghanistan border, Torkham border crossing, Pakistani military checkpoint, Khyber Pass',
+    'أمن وتهريب':   'Pakistani security forces, anti-smuggling operation, border patrol, customs officers',
+    'معارضة':       'Pakistani political rally, crowd protest, PTI supporters, Lahore political gathering',
+    'جيش':          'Pakistan Army soldiers, Pakistani military parade, army uniform green, Rawalpindi',
+    'برلمان':       'Pakistan National Assembly building Islamabad, parliamentary session, Pakistani lawmakers',
+    'قضاء':         'Pakistan Supreme Court building Islamabad, Pakistani judge, courtroom, scales of justice',
+  };
+  const topicHint = topicVisuals[a.topic] || 'Pakistani political scene, Islamabad, South Asian context';
+  const titleHint = a.title.slice(0, 100);
+  const prompt = 
+    'Editorial news photograph for Pakistani political news story. ' +
+    'Scene: ' + topicHint + '. ' +
+    'Context: ' + titleHint + '. ' +
+    'Style: photorealistic documentary photography, natural lighting, high resolution. ' +
+    'Important: show South Asian people with Pakistani features, Pakistani flags, Arabic/Urdu signage where appropriate. ' +
+    'No text overlay, no watermark, no European or Western faces.';
 
   try {
     const r = await fetch('https://fal.run/fal-ai/flux/dev', {
@@ -546,6 +572,36 @@ async function copyImgUrl(i, url) {
     await navigator.clipboard.writeText(url);
     alert('تم نسخ رابط الصورة');
   } catch(e) {}
+}
+
+async function fetchImg(i) {
+  const a = allArticles[i];
+  const btn  = document.getElementById('img2-'+i);
+  const box  = document.getElementById('img-box2-'+i);
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري السحب...';
+  box.style.display = 'block';
+
+  // محاولة سحب الصورة من RSS أو Open Graph
+  try {
+    // نحاول نجلب meta tag للصورة من الخبر عبر السيرفر
+    const r = await fetch('/api/og-image?url=' + encodeURIComponent(a.url));
+    const d = await r.json();
+    if (d.image) {
+      box.innerHTML =
+        '<div class="img-card"><img src="' + d.image + '" alt="صورة الخبر" onerror="this.parentElement.parentElement.innerHTML='<div style=\'color:#c62828;font-size:12px;padding:8px\'>⚠️ الصورة غير متاحة من هذا المصدر</div>'" /></div>' +
+        '<div class="img-actions">' +
+          '<a href="' + d.image + '" target="_blank" class="btn btn-out" style="text-decoration:none">🔗 فتح الصورة</a>' +
+          '<button class="btn btn-out" onclick="copyImgUrl(' + i + ','' + d.image + '')">📋 نسخ الرابط</button>' +
+        '</div>';
+    } else {
+      box.innerHTML = '<div style="background:#fff8e1;border-radius:10px;padding:12px;font-size:12px;color:#f57f17">⚠️ هذا المصدر لا يوفر صورة مباشرة — جرّب "توليد صورة AI" بدلاً</div>';
+    }
+  } catch(e) {
+    box.innerHTML = '<div style="color:#c62828;font-size:12px;padding:8px">⚠️ تعذّر سحب الصورة</div>';
+  }
+  btn.disabled = false;
+  btn.textContent = '📰 صورة الخبر';
 }
 
 // ---- تبديل التبويب ----

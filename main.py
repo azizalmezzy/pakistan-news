@@ -303,6 +303,37 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(body)
 
+        elif self.path.startswith("/api/og-image"):
+            params = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            url = params.get("url", [""])[0]
+            image_url = ""
+            try:
+                req = urllib.request.Request(url, headers={
+                    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+                    "Accept": "text/html,application/xhtml+xml"
+                })
+                with urllib.request.urlopen(req, timeout=8) as resp:
+                    html = resp.read(50000).decode('utf-8', errors='ignore')
+                # og:image
+                import re
+                og = re.search(r'<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']', html)
+                if not og:
+                    og = re.search(r'<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']', html)
+                if not og:
+                    og = re.search(r'<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']', html)
+                if og:
+                    image_url = og.group(1)
+                    if image_url.startswith('//'):
+                        image_url = 'https:' + image_url
+            except Exception as e:
+                print(f"OG image error: {e}")
+            body = json.dumps({"image": image_url}).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(body)
+
         elif self.path.startswith("/api/stats/all"):
             stats = get_all_stats()
             body = json.dumps(stats, ensure_ascii=False).encode("utf-8")
