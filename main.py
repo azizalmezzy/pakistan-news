@@ -5,7 +5,161 @@ import urllib.request
 import xml.etree.ElementTree as ET
 import os
 import time
+import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
+
+ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+FAL_KEY       = os.environ.get("FAL_API_KEY", "")
+DATABASE_URL  = os.environ.get("DATABASE_URL", "")
+
+# ---- قاعدة البيانات ----
+def get_db():
+    try:
+        import psycopg2
+        return psycopg2.connect(DATABASE_URL)
+    except Exception as e:
+        print(f"DB Error: {e}")
+        return None
+
+def init_db():
+    db = get_db()
+    if not db: return
+    try:
+        cur = db.cursor()
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id SERIAL PRIMARY KEY,
+                username VARCHAR(50) UNIQUE NOT NULL,
+                created_at TIMESTAMP DEFAULT NOW()
+            )
+        """)
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS usage_log (
+                id SERIAL PRIMARY KEY,
+                username VARCHAR(50) NOT NULL,
+                action VARCHAR(20) NOT NULL,
+                cost FLOAT DEFAULT 0,
+                created_at TIMESTAMP DEFAULT NOW()
+            )
+        """)
+        db.commit()
+        cur.close()
+        db.close()
+        print("✅ DB initialized")
+    except Exception as e:
+        print(f"DB init error: {e}")
+
+def register_user(username):
+    db = get_db()
+    if not db: return False
+    try:
+        cur = db.cursor()
+        cur.execute("INSERT INTO users (username) VALUES (%s) ON CONFLICT (username) DO NOTHING", (username,))
+        db.commit()
+        cur.close()
+        db.close()
+        return True
+    except Exception as e:
+        print(f"Register error: {e}")
+        return False
+
+def log_usage(username, action, cost):
+    db = get_db()
+    if not db: return
+    try:
+        cur = db.cursor()
+        cur.execute("INSERT INTO usage_log (username, action, cost) VALUES (%s, %s, %s)", (username, action, cost))
+        db.commit()
+        cur.close()
+        db.close()
+    except Exception as e:
+        print(f"Log error: {e}")
+
+def get_all_stats():
+    db = get_db()
+    if not db: return []
+    try:
+        cur = db.cursor()
+        cur.execute("""
+            SELECT 
+                username,
+                SUM(CASE WHEN action='tweet' THEN 1 ELSE 0 END) as tweets,
+                SUM(CASE WHEN action='image' THEN 1 ELSE 0 END) as images,
+                SUM(cost) as total_cost,
+                MAX(created_at) as last_active
+            FROM usage_log
+            GROUP BY username
+            ORDER BY total_cost DESC
+        """)
+        rows = cur.fetchall()
+        cur.close()
+        db.close()
+        return [{"username": r[0], "tweets": r[1], "images": r[2], 
+                 "total_cost": round(r[3], 4), "last_active": str(r[4])} for r in rows]
+    except Exception as e:
+        print(f"Stats error: {e}")
+        return []
+
+def get_user_stats(username):
+    db = get_db()
+    if not db: return {}
+    try:
+        cur = db.cursor()
+        import datetime
+        now = datetime.datetime.now()
+        month_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+
+        # إحصائيات الشهر الحالي فقط
+        cur.execute("""
+            SELECT action, COUNT(*), SUM(cost)
+            FROM usage_log WHERE username=%s AND created_at >= %s
+            GROUP BY action
+        """, (username, month_start))
+        rows = cur.fetchall()
+
+        # إجمالي كل الأوقات
+        cur.execute("""
+            SELECT SUM(cost) FROM usage_log WHERE username=%s
+        """, (username,))
+        total_all = cur.fetchone()[0] or 0
+
+        # آخر 7 أيام
+        cur.execute("""
+            SELECT DATE(created_at), SUM(cost)
+            FROM usage_log WHERE username=%s
+            GROUP BY DATE(created_at)
+            ORDER BY DATE(created_at) DESC LIMIT 7
+        """, (username,))
+        daily = cur.fetchall()
+
+        # شهري — آخر 12 شهر
+        cur.execute("""
+            SELECT 
+                TO_CHAR(DATE_TRUNC('month', created_at), 'YYYY-MM') as month,
+                SUM(CASE WHEN action='tweet' THEN 1 ELSE 0 END) as tweets,
+                SUM(CASE WHEN action='image' THEN 1 ELSE 0 END) as images,
+                SUM(cost) as cost
+            FROM usage_log WHERE username=%s
+            GROUP BY DATE_TRUNC('month', created_at)
+            ORDER BY DATE_TRUNC('month', created_at) ASC
+            LIMIT 12
+        """, (username,))
+        monthly = cur.fetchall()
+
+        cur.close()
+        db.close()
+
+        stats = {"tweets": 0, "images": 0, "month_cost": 0, "total_cost": round(total_all, 4), "daily": [], "monthly": []}
+        for r in rows:
+            if r[0] == 'tweet': stats["tweets"] = r[1]; stats["month_cost"] += r[2]
+            if r[0] == 'image': stats["images"] = r[1]; stats["month_cost"] += r[2]
+        stats["month_cost"] = round(stats["month_cost"], 4)
+        stats["daily"] = [{"date": str(d[0]), "cost": round(d[1], 4)} for d in daily]
+        stats["monthly"] = [{"month": m[0], "tweets": m[1], "images": m[2], "cost": round(m[3], 4)} for m in monthly]
+        return stats
+    except Exception as e:
+        print(f"User stats error: {e}")
+        return {}
 
 PORT = int(os.environ.get("PORT", 8765))
 
@@ -112,6 +266,63 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
             self.wfile.write(body)
+        elif self.path == "/api/config":
+            config = {"claude_key": ANTHROPIC_KEY, "fal_key": FAL_KEY}
+            body = json.dumps(config).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(body)
+
+        elif self.path.startswith("/api/register"):
+            params = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            username = params.get("username", [""])[0].strip().lower()
+            if username and len(username) >= 2:
+                register_user(username)
+                body = json.dumps({"ok": True, "username": username}).encode("utf-8")
+            else:
+                body = json.dumps({"ok": False, "error": "اسم قصير"}).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(body)
+
+        elif self.path.startswith("/api/log"):
+            params = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            username = params.get("username", [""])[0]
+            action   = params.get("action", ["tweet"])[0]
+            cost     = float(params.get("cost", [0])[0])
+            if username:
+                log_usage(username, action, cost)
+            body = json.dumps({"ok": True}).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(body)
+
+        elif self.path.startswith("/api/stats/all"):
+            stats = get_all_stats()
+            body = json.dumps(stats, ensure_ascii=False).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(body)
+
+        elif self.path.startswith("/api/stats/user"):
+            params = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            username = params.get("username", [""])[0]
+            stats = get_user_stats(username) if username else {}
+            body = json.dumps(stats, ensure_ascii=False).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(body)
+
         elif self.path in ("/", "/index.html"):
             body = HTML_PAGE.encode("utf-8")
             self.send_response(200)
@@ -129,6 +340,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
         self.end_headers()
 
 if __name__ == "__main__":
+    init_db()
     server = http.server.HTTPServer(("0.0.0.0", PORT), Handler)
     print(f"✅ السيرفر يعمل على port {PORT}")
     server.serve_forever()

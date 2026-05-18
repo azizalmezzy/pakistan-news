@@ -65,6 +65,54 @@ body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2
 .empty-icon { font-size: 52px; margin-bottom: 12px; }
 .empty p { font-size: 14px; color: #aaa; }
 .error-msg { background: #fdecea; color: #c62828; border: 1px solid #f5c6cb; border-radius: 10px; padding: 12px 16px; font-size: 13px; margin-bottom: 14px; }
+/* شاشة الدخول */
+.login-overlay { position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9999; }
+.login-box { background:#111;border-radius:16px;padding:40px;width:320px;text-align:center; }
+.login-logo { font-size:48px;margin-bottom:8px; }
+.login-title { color:#fff;font-size:20px;font-weight:700;margin-bottom:4px; }
+.login-sub { color:#888;font-size:13px;margin-bottom:24px; }
+.login-input { width:100%;padding:12px 16px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#fff;font-size:15px;text-align:center;margin-bottom:12px;direction:rtl; }
+.login-input:focus { outline:none;border-color:#1DA1F2; }
+.login-btn { width:100%;padding:12px;background:#1DA1F2;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer; }
+.login-btn:hover { background:#0d8ecf; }
+.login-error { color:#f44336;font-size:12px;margin-top:8px;display:none; }
+/* شريط المستخدم */
+.user-bar { background:#111;padding:6px 16px;display:flex;align-items:center;justify-content:space-between; }
+.user-bar-name { color:#888;font-size:12px; }
+.user-bar-name span { color:#1DA1F2;font-weight:600; }
+.tab-bar { background:#111; display:flex; gap:4px; padding:8px 16px; }
+.tab-btn { padding:8px 20px; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; background:transparent; color:#888; transition:all 0.15s; }
+.tab-btn.active { background:#1DA1F2; color:#fff; }
+.tab-btn:hover:not(.active) { background:#222; color:#fff; }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+.cost-card { background:#fff; border-radius:12px; border:1px solid #e4e4e4; padding:20px; margin-bottom:14px; }
+.cost-card h3 { font-size:14px; font-weight:700; margin-bottom:16px; color:#333; }
+.cost-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
+.cost-stat { background:#f8f9fa; border-radius:10px; padding:14px 16px; text-align:center; }
+.cost-stat-n { font-size:26px; font-weight:800; color:#1DA1F2; }
+.cost-stat-l { font-size:11px; color:#999; margin-top:3px; }
+.cost-stat.green .cost-stat-n { color:#2e7d32; }
+.cost-stat.red .cost-stat-n { color:#c62828; }
+.cost-stat.purple .cost-stat-n { color:#6a1b9a; }
+.calc-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+.calc-row label { font-size:13px; color:#555; min-width:140px; }
+.calc-row input[type=number] { width:80px; font-size:13px; padding:6px 10px; border:1px solid #ddd; border-radius:8px; text-align:center; }
+.calc-row input[type=range] { flex:1; min-width:120px; }
+.calc-result { background:#EEF6FF; border-radius:10px; padding:14px 16px; margin-top:12px; }
+.calc-result-row { display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px; color:#444; }
+.calc-result-row.total { font-weight:700; font-size:15px; color:#1DA1F2; border-top:1px solid #ddd; padding-top:8px; margin-top:8px; }
+.balance-row { display:flex; gap:10px; align-items:center; margin-bottom:10px; flex-wrap:wrap; }
+.balance-row label { font-size:13px; color:#555; min-width:140px; }
+.balance-row input { width:100px; font-size:13px; padding:6px 10px; border:1px solid #ddd; border-radius:8px; }
+.balance-bar { height:8px; border-radius:4px; background:#e0e0e0; margin:6px 0; overflow:hidden; }
+.balance-fill { height:100%; border-radius:4px; background:#1DA1F2; transition:width 0.5s; }
+.balance-fill.warn { background:#ff9800; }
+.balance-fill.danger { background:#c62828; }
+.alert-box { border-radius:8px; padding:10px 14px; font-size:12px; margin-top:8px; display:none; }
+.alert-box.warn { background:#fff8e1; border:1px solid #ffe082; color:#f57f17; }
+.alert-box.danger { background:#fdecea; border:1px solid #ffcdd2; color:#c62828; }
+.alert-box.ok { background:#e8f5e9; border:1px solid #c8e6c9; color:#2e7d32; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .spin   { display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px; }
 .spin-b { display:inline-block;width:10px;height:10px;border:2px solid #ddd;border-top-color:#1DA1F2;border-radius:50%;animation:spin .7s linear infinite; }
@@ -80,23 +128,34 @@ body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2
   </div>
 </div>
 
-<div class="container">
-  <div class="setup-card">
-    <h3>🔑 مفتاح Claude</h3>
-    <div class="field-row">
-      <label>Anthropic API Key:</label>
-      <input type="password" id="claudeKey" placeholder="sk-ant-..." />
-      <a href="https://console.anthropic.com/settings/keys" target="_blank" class="help-link">← احصل على مفتاح</a>
-    </div>
-    <div class="field-row" style="margin-top:10px">
-      <label>fal.ai API Key:</label>
-      <input type="password" id="falKey" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx:..." />
-      <a href="https://fal.ai/dashboard/keys" target="_blank" class="help-link">← API Keys</a>
-    </div>
-    <div class="notice">
-      💡 المفاتيح تُحفظ في متصفحك فقط · مفتاح fal لتوليد صور التغريدات · الأخبار من آخر 7 أيام.
-    </div>
+<!-- شاشة الدخول -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="login-logo">🏛️</div>
+    <div class="login-title">غرفة أخبار باكستان</div>
+    <div class="login-sub">أدخل اسمك للمتابعة</div>
+    <input class="login-input" id="loginInput" placeholder="اسمك بالعربي أو الإنجليزي" maxlength="30" onkeydown="if(event.key==='Enter')doLogin()" />
+    <button class="login-btn" onclick="doLogin()">دخول ←</button>
+    <div class="login-error" id="loginError">يرجى إدخال اسم صحيح (حرفان على الأقل)</div>
   </div>
+</div>
+
+<!-- شريط المستخدم -->
+<div class="user-bar" id="userBar" style="display:none">
+  <div class="user-bar-name">مرحباً <span id="userBarName"></span> 👋</div>
+  <div class="user-bar-name" id="userBarCost">التكلفة: $0.0000</div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" id="tab-news" onclick="switchTab('news')">📰 الأخبار</button>
+  <button class="tab-btn" id="tab-cost" onclick="switchTab('cost')">💰 تكلفتي</button>
+  <button class="tab-btn" id="tab-admin" onclick="switchTab('admin')">📊 لوحة الإدارة</button>
+</div>
+<div class="container">
+<div id="tab-news-content" class="tab-content active">
+  <!-- المفاختيح محفوظة في السيرفر -->
+  <input type="hidden" id="claudeKey" value="FROM_SERVER" />
+  <input type="hidden" id="falKey" value="FROM_SERVER" />
 
   <div class="controls-row">
     <button class="btn-fetch" id="fetchBtn" onclick="fetchAll()">🔄 سحب الأخبار</button>
@@ -131,22 +190,145 @@ body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2
   <div class="news-list" id="newsList">
     <div class="empty"><div class="empty-icon">🏛️</div><p>اضغط "سحب الأخبار" للبدء</p></div>
   </div>
-</div>
+</div><!-- end tab-news-content -->
+
+<div id="tab-cost-content" class="tab-content">
+  <!-- إحصائيات الجلسة -->
+  <div class="cost-card">
+    <h3>📊 إحصائيات الجلسة الحالية</h3>
+    <!-- الشهر الحالي -->
+    <div style="font-size:12px;font-weight:700;color:#1DA1F2;margin-bottom:10px;display:flex;align-items:center;gap:6px">
+      📅 <span id="currentMonthLabel">الشهر الحالي</span>
+      <span style="background:#e3f2fd;color:#1565c0;padding:2px 8px;border-radius:10px;font-size:10px" id="monthResetLabel"></span>
+    </div>
+    <div class="cost-grid">
+      <div class="cost-stat"><div class="cost-stat-n" id="cs-tweets">0</div><div class="cost-stat-l">تغريدة هذا الشهر</div></div>
+      <div class="cost-stat purple"><div class="cost-stat-n" id="cs-images">0</div><div class="cost-stat-l">صورة هذا الشهر</div></div>
+      <div class="cost-stat green"><div class="cost-stat-n" id="cs-cost">$0.00</div><div class="cost-stat-l">تكلفة التغريدات</div></div>
+      <div class="cost-stat red"><div class="cost-stat-n" id="cs-img-cost">$0.00</div><div class="cost-stat-l">تكلفة الصور</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+      <div class="cost-stat" style="background:#f0f4ff">
+        <div style="font-size:20px;font-weight:800;color:#1565c0" id="cs-month-total">$0.00</div>
+        <div style="font-size:11px;color:#888;margin-top:3px">إجمالي هذا الشهر</div>
+      </div>
+      <div class="cost-stat" style="background:#f9fbe7">
+        <div style="font-size:20px;font-weight:800;color:#558b2f" id="cs-total">$0.00</div>
+        <div style="font-size:11px;color:#888;margin-top:3px">إجمالي كل الأوقات</div>
+      </div>
+    </div>
+    <!-- رسم بياني شهري -->
+    <div style="margin-top:20px">
+      <div style="font-size:12px;font-weight:700;color:#555;margin-bottom:12px">📊 الإنفاق الشهري (آخر 12 شهر)</div>
+      <div id="monthlyChart" style="display:flex;align-items:flex-end;gap:6px;height:120px;padding:0 4px"></div>
+      <div id="monthlyChartLabels" style="display:flex;gap:6px;margin-top:6px;padding:0 4px"></div>
+    </div>
+  </div>
+
+  <!-- حاسبة التكلفة الشهرية -->
+  <div class="cost-card">
+    <h3>🧮 حاسبة التكلفة الشهرية</h3>
+    <div class="calc-row">
+      <label>عدد التغريدات يومياً</label>
+      <input type="number" id="calc-tweets" value="10" min="0" max="500" oninput="calcCost()">
+      <input type="range" min="0" max="100" value="10" oninput="this.previousElementSibling.value=this.value;calcCost()">
+    </div>
+    <div class="calc-row">
+      <label>عدد الصور يومياً</label>
+      <input type="number" id="calc-images" value="5" min="0" max="200" oninput="calcCost()">
+      <input type="range" min="0" max="50" value="5" oninput="this.previousElementSibling.value=this.value;calcCost()">
+    </div>
+    <div class="calc-row">
+      <label>أيام الاستخدام بالشهر</label>
+      <input type="number" id="calc-days" value="25" min="1" max="31" oninput="calcCost()">
+      <input type="range" min="1" max="31" value="25" oninput="this.previousElementSibling.value=this.value;calcCost()">
+    </div>
+    <div class="calc-result" id="calc-result">
+      <div class="calc-result-row"><span>تكلفة التغريدات الشهرية</span><span id="cr-tweets">$0.00</span></div>
+      <div class="calc-result-row"><span>تكلفة الصور الشهرية</span><span id="cr-images">$0.00</span></div>
+      <div class="calc-result-row total"><span>الإجمالي الشهري</span><span id="cr-total">$0.00</span></div>
+      <div style="margin-top:10px;font-size:12px;color:#666" id="cr-recommendation"></div>
+    </div>
+  </div>
+
+  <!-- متابعة الرصيد -->
+  <div class="cost-card">
+    <h3>💳 متابعة الرصيد والشحن</h3>
+
+    <div style="font-size:13px;font-weight:600;color:#333;margin-bottom:10px">Anthropic (Claude)</div>
+    <div class="balance-row">
+      <label>رصيدك الحالي ($)</label>
+      <input type="number" id="bal-claude" value="5" step="0.1" min="0" oninput="updateBalance()">
+    </div>
+    <div class="balance-bar"><div class="balance-fill" id="bal-claude-bar" style="width:100%"></div></div>
+    <div style="font-size:12px;color:#888;margin-bottom:4px" id="bal-claude-info"></div>
+    <div class="alert-box" id="bal-claude-alert"></div>
+
+    <div style="font-size:13px;font-weight:600;color:#333;margin:14px 0 10px">fal.ai (الصور)</div>
+    <div class="balance-row">
+      <label>رصيدك الحالي ($)</label>
+      <input type="number" id="bal-fal" value="10" step="0.1" min="0" oninput="updateBalance()">
+    </div>
+    <div class="balance-bar"><div class="balance-fill" id="bal-fal-bar" style="width:100%"></div></div>
+    <div style="font-size:12px;color:#888;margin-bottom:4px" id="bal-fal-info"></div>
+    <div class="alert-box" id="bal-fal-alert"></div>
+  </div>
+
+  <!-- أسعار مرجعية -->
+  <div class="cost-card">
+    <h3>📋 الأسعار المرجعية</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <tr style="background:#f8f9fa">
+        <td style="padding:8px 12px;border-radius:6px 0 0 6px;font-weight:600">التغريدة الواحدة</td>
+        <td style="padding:8px 12px;color:#2e7d32;font-weight:700">~$0.0004</td>
+        <td style="padding:8px 12px;color:#888">Claude Haiku</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;font-weight:600">الصورة الواحدة</td>
+        <td style="padding:8px 12px;color:#6a1b9a;font-weight:700">~$0.025</td>
+        <td style="padding:8px 12px;color:#888">fal.ai FLUX</td>
+      </tr>
+      <tr style="background:#f8f9fa">
+        <td style="padding:8px 12px;border-radius:6px 0 0 6px;font-weight:600">سحب الأخبار</td>
+        <td style="padding:8px 12px;color:#1565c0;font-weight:700">$0.00</td>
+        <td style="padding:8px 12px;color:#888">Google News RSS مجاني</td>
+      </tr>
+    </table>
+  </div>
+</div><!-- end tab-cost-content -->
+
+<div id="tab-admin-content" class="tab-content">
+  <div class="cost-card">
+    <h3>📊 إحصائيات جميع المستخدمين</h3>
+    <button class="btn btn-gen" onclick="loadAdminStats()" style="margin-bottom:16px">🔄 تحديث</button>
+    <div id="adminTable">
+      <div style="text-align:center;color:#aaa;padding:20px">اضغط تحديث لتحميل البيانات</div>
+    </div>
+  </div>
+  <div class="cost-card">
+    <h3>📈 تفاصيل مستخدم معين</h3>
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      <input id="adminUserInput" placeholder="اسم المستخدم" style="flex:1;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:13px;direction:rtl" />
+      <button class="btn btn-gen" onclick="loadUserDetail()">عرض</button>
+    </div>
+    <div id="userDetail"></div>
+  </div>
+</div><!-- end tab-admin-content -->
+
+</div><!-- end container -->
 
 <script>
 let allArticles = [], filtered = [], twCount = 0, twMap = {}, currentFilter = 'all';
 
 window.onload = () => {
-  const k = localStorage.getItem('pak_claude_key');
-  if (k) document.getElementById('claudeKey').value = k;
-  const f = localStorage.getItem('pak_fal_key');
-  if (f) document.getElementById('falKey').value = f;
+  // جلب المفاتيح من السيرفر
+  fetch('/api/config').then(r=>r.json()).then(d=>{
+    document.getElementById('claudeKey').value = d.claude_key || '';
+    document.getElementById('falKey').value = d.fal_key || '';
+  });
 };
 function saveKey() {
-  const k = document.getElementById('claudeKey').value.trim();
-  if (k) localStorage.setItem('pak_claude_key', k);
-  const f = document.getElementById('falKey').value.trim();
-  if (f) localStorage.setItem('pak_fal_key', f);
+  // المفاتيح من السيرفر
 }
 function showError(msg) {
   const b = document.getElementById('errorBox');
@@ -247,7 +429,6 @@ function renderAll(list) {
 async function genTweet(i) {
   saveKey();
   const cKey = document.getElementById('claudeKey').value.trim();
-  if (!cKey) { showError('أدخل مفتاح Claude'); return; }
   const a = allArticles[i];
   const tb = document.getElementById('tb-'+i);
   const gb = document.getElementById('gen-'+i);
@@ -289,6 +470,7 @@ async function genTweet(i) {
     ch.textContent = len + ' / 280';
     ch.className = 'char-info' + (len > 270 ? ' char-warn' : '');
     twCount++; document.getElementById('sT').textContent = twCount;
+    trackTweet();
   } catch(e) { tb.textContent = '⚠️ ' + (e.message||'خطأ'); }
   gb.disabled = false;
 }
@@ -351,6 +533,7 @@ async function genImg(i) {
         '<button class="btn btn-out" onclick="copyImgUrl(' + i + ',\'' + imgUrl + '\')">🔗 نسخ الرابط</button>' +
       '</div>';
     imgBtn.textContent = '🖼️ صورة جديدة';
+    trackImage();
   } catch(e) {
     imgBox.innerHTML = '<div style="color:#c62828;font-size:12px;padding:8px">⚠️ ' + (e.message||'خطأ في توليد الصورة') + '</div>';
     imgBtn.textContent = '🖼️ صورة';
@@ -364,6 +547,233 @@ async function copyImgUrl(i, url) {
     alert('تم نسخ رابط الصورة');
   } catch(e) {}
 }
+
+// ---- تبديل التبويب ----
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab + '-content').classList.add('active');
+  if (tab === 'cost') { calcCost(); updateBalance(); loadMyStats(); }
+  if (tab === 'admin') { loadAdminStats(); }
+}
+
+// ---- تسجيل الدخول ----
+let currentUser = '';
+
+async function doLogin() {
+  const name = document.getElementById('loginInput').value.trim();
+  if (name.length < 2) {
+    document.getElementById('loginError').style.display = 'block'; return;
+  }
+  const r = await fetch('/api/register?username=' + encodeURIComponent(name));
+  const d = await r.json();
+  if (d.ok) {
+    currentUser = d.username;
+    localStorage.setItem('pak_username', currentUser);
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('userBar').style.display = 'flex';
+    document.getElementById('userBarName').textContent = name;
+    loadMyStats();
+  }
+}
+
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('pak_username');
+  if (saved) {
+    currentUser = saved;
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('userBar').style.display = 'flex';
+    document.getElementById('userBarName').textContent = saved;
+    loadMyStats();
+  }
+});
+
+async function logToServer(action, cost) {
+  if (!currentUser) return;
+  fetch('/api/log?username=' + encodeURIComponent(currentUser) + '&action=' + action + '&cost=' + cost);
+}
+
+async function loadMyStats() {
+  if (!currentUser) return;
+  const r = await fetch('/api/stats/user?username=' + encodeURIComponent(currentUser));
+  const d = await r.json();
+
+  // الشهر الحالي
+  const now = new Date();
+  const monthNames = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  document.getElementById('currentMonthLabel').textContent = monthNames[now.getMonth()] + ' ' + now.getFullYear();
+  document.getElementById('monthResetLabel').textContent = 'يتصفر أول كل شهر';
+
+  document.getElementById('cs-tweets').textContent = d.tweets || 0;
+  document.getElementById('cs-images').textContent = d.images || 0;
+  const tc = (d.tweets||0) * 0.0004;
+  const ic = (d.images||0) * 0.025;
+  document.getElementById('cs-cost').textContent = '$' + tc.toFixed(4);
+  document.getElementById('cs-img-cost').textContent = '$' + ic.toFixed(4);
+  document.getElementById('cs-month-total').textContent = '$' + (d.month_cost||0).toFixed(4);
+  document.getElementById('cs-total').textContent = '$' + (d.total_cost||0).toFixed(4);
+  document.getElementById('userBarCost').textContent = 'هذا الشهر: $' + (d.month_cost||0).toFixed(4);
+
+  // رسم بياني شهري
+  if (d.monthly && d.monthly.length) {
+    const maxCost = Math.max(...d.monthly.map(m => m.cost), 0.001);
+    const chart = document.getElementById('monthlyChart');
+    const labels = document.getElementById('monthlyChartLabels');
+    chart.innerHTML = '';
+    labels.innerHTML = '';
+    const barW = Math.floor((chart.parentElement.offsetWidth - 40) / d.monthly.length) - 6;
+    d.monthly.forEach(m => {
+      const pct = (m.cost / maxCost) * 100;
+      const isCurrentMonth = m.month === (now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0'));
+      const bar = document.createElement('div');
+      bar.style.cssText = 'flex:1;background:'+(isCurrentMonth?'#1DA1F2':'#bbdefb')+';border-radius:4px 4px 0 0;min-height:4px;height:'+pct+'%;position:relative;cursor:pointer;transition:opacity 0.15s';
+      bar.title = m.month + ': $' + m.cost + ' (' + m.tweets + ' تغريدة، ' + m.images + ' صورة)';
+      bar.onmouseover = () => bar.style.opacity = '0.8';
+      bar.onmouseout = () => bar.style.opacity = '1';
+      chart.appendChild(bar);
+      const lbl = document.createElement('div');
+      lbl.style.cssText = 'flex:1;font-size:9px;color:#aaa;text-align:center;overflow:hidden';
+      const parts = m.month.split('-');
+      lbl.textContent = monthNames[parseInt(parts[1])-1].slice(0,3);
+      labels.appendChild(lbl);
+    });
+  }
+}
+
+async function loadAdminStats() {
+  const r = await fetch('/api/stats/all');
+  const data = await r.json();
+  const el = document.getElementById('adminTable');
+  if (!data.length) { el.innerHTML = '<div style="text-align:center;color:#aaa;padding:20px">لا يوجد بيانات بعد</div>'; return; }
+  let html = '<table style="width:100%;border-collapse:collapse;font-size:13px"><tr style="background:#f8f9fa;font-weight:700"><td style="padding:10px">المستخدم</td><td style="padding:10px;text-align:center">تغريدات</td><td style="padding:10px;text-align:center">صور</td><td style="padding:10px;text-align:center">التكلفة</td><td style="padding:10px;text-align:center">آخر نشاط</td></tr>';
+  data.forEach((u, i) => {
+    const bg = i%2===0?'#fff':'#f8f9fa';
+    html += '<tr style="background:'+bg+'"><td style="padding:10px;font-weight:600">'+u.username+'</td><td style="padding:10px;text-align:center">'+u.tweets+'</td><td style="padding:10px;text-align:center">'+u.images+'</td><td style="padding:10px;text-align:center;color:#1DA1F2;font-weight:700">$'+u.total_cost+'</td><td style="padding:10px;text-align:center;color:#999;font-size:11px">'+(u.last_active||'').slice(0,16)+'</td></tr>';
+  });
+  html += '</table>';
+  el.innerHTML = html;
+}
+
+async function loadUserDetail() {
+  const name = document.getElementById('adminUserInput').value.trim();
+  if (!name) return;
+  const r = await fetch('/api/stats/user?username=' + encodeURIComponent(name));
+  const d = await r.json();
+  const el = document.getElementById('userDetail');
+  if (!d.tweets && !d.images) { el.innerHTML = '<div style="color:#aaa;font-size:13px">لا توجد بيانات لهذا المستخدم</div>'; return; }
+  let html = '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">';
+  html += '<div style="background:#f8f9fa;border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;font-weight:800;color:#1DA1F2">'+(d.tweets||0)+'</div><div style="font-size:11px;color:#999">تغريدة</div></div>';
+  html += '<div style="background:#f8f9fa;border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;font-weight:800;color:#6a1b9a">'+(d.images||0)+'</div><div style="font-size:11px;color:#999">صورة</div></div>';
+  html += '<div style="background:#f8f9fa;border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;font-weight:800;color:#2e7d32">$'+(d.total_cost||0)+'</div><div style="font-size:11px;color:#999">إجمالي</div></div>';
+  html += '</div>';
+  if (d.daily && d.daily.length) {
+    html += '<div style="font-size:12px;font-weight:600;color:#555;margin-bottom:8px">آخر 7 أيام:</div>';
+    d.daily.forEach(day => {
+      html += '<div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid #f0f0f0"><span>'+day.date+'</span><span style="color:#1DA1F2;font-weight:600">$'+day.cost+'</span></div>';
+    });
+  }
+  el.innerHTML = html;
+}
+
+// ---- تتبع التكلفة ----
+const TWEET_COST = 0.0004;
+const IMG_COST   = 0.025;
+let sessionTweets = 0, sessionImages = 0;
+
+function trackTweet() {
+  sessionTweets++;
+  updateCostStats();
+  logToServer('tweet', 0.0004);
+  loadMyStats();
+}
+function trackImage() {
+  sessionImages++;
+  updateCostStats();
+  logToServer('image', 0.025);
+  loadMyStats();
+}
+function updateCostStats() {
+  const tc = sessionTweets * TWEET_COST;
+  const ic = sessionImages * IMG_COST;
+  document.getElementById('cs-tweets').textContent = sessionTweets;
+  document.getElementById('cs-images').textContent = sessionImages;
+  document.getElementById('cs-cost').textContent = '$' + tc.toFixed(4);
+  document.getElementById('cs-img-cost').textContent = '$' + ic.toFixed(4);
+  document.getElementById('cs-total').textContent = '$' + (tc + ic).toFixed(4);
+}
+
+// ---- حاسبة الشهر ----
+function calcCost() {
+  const tweets = parseFloat(document.getElementById('calc-tweets').value) || 0;
+  const images = parseFloat(document.getElementById('calc-images').value) || 0;
+  const days   = parseFloat(document.getElementById('calc-days').value) || 25;
+  const tCost  = tweets * days * TWEET_COST;
+  const iCost  = images * days * IMG_COST;
+  const total  = tCost + iCost;
+  document.getElementById('cr-tweets').textContent = '$' + tCost.toFixed(2);
+  document.getElementById('cr-images').textContent = '$' + iCost.toFixed(2);
+  document.getElementById('cr-total').textContent  = '$' + total.toFixed(2);
+  let rec = '';
+  if (total < 3) rec = '✅ الاستخدام خفيف — شحن $5 يكفيك أكثر من شهر';
+  else if (total < 8) rec = '🔵 استخدام متوسط — شحن $10 شهرياً مناسب';
+  else rec = '🟡 استخدام مكثف — فكر في شحن $20 شهرياً';
+  document.getElementById('cr-recommendation').textContent = rec;
+  updateBalance();
+}
+
+// ---- متابعة الرصيد ----
+function updateBalance() {
+  const tweets = parseFloat(document.getElementById('calc-tweets').value) || 10;
+  const images = parseFloat(document.getElementById('calc-images').value) || 5;
+  const days   = parseFloat(document.getElementById('calc-days').value) || 25;
+
+  // Claude
+  const claudeBal  = parseFloat(document.getElementById('bal-claude').value) || 0;
+  const dailyClaude = tweets * TWEET_COST;
+  const daysClaude  = dailyClaude > 0 ? Math.floor(claudeBal / dailyClaude) : 999;
+  const pctClaude   = Math.min(100, (claudeBal / 5) * 100);
+  const barClaude   = document.getElementById('bal-claude-bar');
+  barClaude.style.width = pctClaude + '%';
+  barClaude.className = 'balance-fill' + (pctClaude < 20 ? ' danger' : pctClaude < 40 ? ' warn' : '');
+  document.getElementById('bal-claude-info').textContent = 'يكفي تقريباً ' + daysClaude + ' يوم بناءً على استخدامك';
+  const alertClaude = document.getElementById('bal-claude-alert');
+  if (claudeBal < 1) {
+    alertClaude.style.display = 'block'; alertClaude.className = 'alert-box danger';
+    alertClaude.textContent = '🚨 رصيد منخفض جداً! اشحن الآن من console.anthropic.com';
+  } else if (claudeBal < 2) {
+    alertClaude.style.display = 'block'; alertClaude.className = 'alert-box warn';
+    alertClaude.textContent = '⚠️ الرصيد يقترب من النهاية — يُنصح بالشحن قريباً';
+  } else {
+    alertClaude.style.display = 'block'; alertClaude.className = 'alert-box ok';
+    alertClaude.textContent = '✅ الرصيد جيد';
+  }
+
+  // fal
+  const falBal  = parseFloat(document.getElementById('bal-fal').value) || 0;
+  const dailyFal = images * IMG_COST;
+  const daysFal  = dailyFal > 0 ? Math.floor(falBal / dailyFal) : 999;
+  const pctFal   = Math.min(100, (falBal / 10) * 100);
+  const barFal   = document.getElementById('bal-fal-bar');
+  barFal.style.width = pctFal + '%';
+  barFal.className = 'balance-fill' + (pctFal < 20 ? ' danger' : pctFal < 40 ? ' warn' : '');
+  document.getElementById('bal-fal-info').textContent = 'يكفي تقريباً ' + daysFal + ' يوم بناءً على استخدامك';
+  const alertFal = document.getElementById('bal-fal-alert');
+  if (falBal < 2) {
+    alertFal.style.display = 'block'; alertFal.className = 'alert-box danger';
+    alertFal.textContent = '🚨 رصيد fal منخفض! اشحن من fal.ai/dashboard';
+  } else if (falBal < 4) {
+    alertFal.style.display = 'block'; alertFal.className = 'alert-box warn';
+    alertFal.textContent = '⚠️ رصيد fal يقترب من النهاية';
+  } else {
+    alertFal.style.display = 'block'; alertFal.className = 'alert-box ok';
+    alertFal.textContent = '✅ الرصيد جيد';
+  }
+}
+
+// ربط tracking بالتغريدات والصور
+const _origGenTweet = genTweet;
+const origGenTweet = genTweet;
 </script>
 </body>
 </html>
