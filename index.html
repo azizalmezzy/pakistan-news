@@ -429,22 +429,28 @@ function renderAll(list) {
       '<div id="img-box-'+idx+'"  style="display:none;margin-bottom:12px"></div>' +
       '<div id="img-box2-'+idx+'" style="display:none;margin-bottom:12px"></div>' +
       '<div class="card-footer">' +
-        '<button class="btn btn-gen" id="gen-'+idx+'" onclick="genTweet('+idx+')">✨ توليد تغريدة</button>' +
-        '<button class="btn btn-out" id="cp-'+idx+'"  onclick="copyT('+idx+')"  style="display:none">📋 نسخ</button>' +
-        '<button class="btn btn-x"   id="ox-'+idx+'"  onclick="openX('+idx+')"  style="display:none">𝕏 فتح في X</button>' +
-        '<button class="btn btn-img" id="img-'+idx+'"      onclick="genImg('+idx+')"    style="display:none">🎨 توليد صورة AI</button>' +
-        '<button class="btn btn-img2" id="img2-'+idx+'" onclick="fetchImg('+idx+')" style="display:none">📰 صورة الخبر</button>' +
+        '<button class="btn btn-gen"  id="gen-'+idx+'"   onclick="genTweet('+idx+',' + "'a'" + ')">✨ أسلوب A</button>' +
+        '<button class="btn btn-gen2" id="gen-b-'+idx+'" onclick="genTweet('+idx+',' + "'b'" + ')">📝 أسلوب B</button>' +
+        '<button class="btn btn-out"  id="cp-'+idx+'"    onclick="copyT('+idx+',' + "'a'" + ')"  style="display:none">📋 نسخ A</button>' +
+        '<button class="btn btn-out"  id="cp-b-'+idx+'"  onclick="copyT('+idx+',' + "'b'" + ')"  style="display:none">📋 نسخ B</button>' +
+        '<button class="btn btn-x"    id="ox-'+idx+'"    onclick="openX('+idx+',' + "'a'" + ')"  style="display:none">𝕏 نشر A</button>' +
+        '<button class="btn btn-x"    id="ox-b-'+idx+'"  onclick="openX('+idx+',' + "'b'" + ')"  style="display:none">𝕏 نشر B</button>' +
+        '<button class="btn btn-img"  id="img-'+idx+'"   onclick="genImg('+idx+')"    style="display:none">🖼️ صورة AI</button>' +
+        '<button class="btn btn-img2" id="img2-'+idx+'"  onclick="fetchImg('+idx+')"  style="display:none">📰 صورة الخبر</button>' +
         '<span class="char-info" id="ch-'+idx+'"></span>' +
       '</div></div>';
   }).join('');
 }
 
-async function genTweet(i) {
+async function genTweet(i, style) {
+  style = style || 'a';
   saveKey();
   const cKey = document.getElementById('claudeKey').value.trim();
   const a = allArticles[i];
-  const tb = document.getElementById('tb-'+i);
-  const gb = document.getElementById('gen-'+i);
+  const tbId = style === 'b' ? 'tb-b-'+i : 'tb-'+i;
+  const gbId = style === 'b' ? 'gen-b-'+i : 'gen-'+i;
+  const tb = document.getElementById(tbId);
+  const gb = document.getElementById(gbId);
   gb.disabled = true;
   tb.innerHTML = '<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#888"><span class="spin-b"></span> جاري التوليد...</div>';
   try {
