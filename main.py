@@ -316,11 +316,11 @@ class Handler(http.server.BaseHTTPRequestHandler):
                     html = resp.read(50000).decode('utf-8', errors='ignore')
                 # og:image
                 import re
-                og = re.search(r'<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']', html)
+                og = re.search(r'<meta[^>]+property=(?:["\'])og:image(?:["\'])[^>]+content=(?:["\'])([^"\'>]+)(?:["\'])', html)
                 if not og:
-                    og = re.search(r'<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']', html)
+                    og = re.search(r'<meta[^>]+content=(?:["\'])([^"\'>]+)(?:["\'])[^>]+property=(?:["\'])og:image(?:["\'])', html)
                 if not og:
-                    og = re.search(r'<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']', html)
+                    og = re.search(r'<meta[^>]+name=(?:["\'])twitter:image(?:["\'])[^>]+content=(?:["\'])([^"\'>]+)(?:["\'])', html)
                 if og:
                     image_url = og.group(1)
                     if image_url.startswith('//'):
