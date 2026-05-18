@@ -251,6 +251,55 @@ def fetch_all_news():
     print(f"✅ {len(unique)} خبر من آخر 7 أيام")
     return unique
 
+def translate_titles(articles):
+    import json as _json
+    import urllib.request as _req
+    english = [(i, a) for i, a in enumerate(articles)
+               if a.get('title') and not any(0x0600 <= ord(ch) <= 0x06FF for ch in a['title'])]
+    if not english or not ANTHROPIC_KEY:
+        return articles
+    lines = []
+    for i, a in english[:30]:
+        lines.append(str(i) + ": " + a['title'])
+    titles_text = "\n".join(lines)
+    prompt = (
+        "Translate these English news headlines to fluent Arabic. "
+        "Keep the same format: number: translation. Only output the translations.\n\n"
+        + titles_text
+    )
+    try:
+        body = _json.dumps({
+            "model": "claude-haiku-4-5-20251001",
+            "max_tokens": 2000,
+            "messages": [{"role": "user", "content": prompt}]
+        }).encode("utf-8")
+        request = _req.Request(
+            "https://api.anthropic.com/v1/messages",
+            data=body,
+            headers={
+                "Content-Type": "application/json",
+                "x-api-key": ANTHROPIC_KEY,
+                "anthropic-version": "2023-06-01"
+            },
+            method="POST"
+        )
+        with _req.urlopen(request, timeout=20) as resp:
+            data = _json.loads(resp.read())
+        text = data.get("content", [{}])[0].get("text", "")
+        for line in text.strip().split("\n"):
+            if ":" in line:
+                parts = line.split(":", 1)
+                try:
+                    article_idx = int(parts[0].strip())
+                    translation = parts[1].strip()
+                    if translation:
+                        articles[article_idx]["titleAr"] = translation
+                except (ValueError, IndexError):
+                    pass
+    except Exception as e:
+        print(f"Translation error: {e}")
+    return articles
+
 HTML_PAGE = open("index.html", "r", encoding="utf-8").read()
 
 class Handler(http.server.BaseHTTPRequestHandler):
@@ -260,6 +309,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/api/news":
             articles = fetch_all_news()
+            articles = translate_titles(articles)
             body = json.dumps({"articles": articles}, ensure_ascii=False).encode("utf-8")
             self.send_response(200)
             self.send_header("Content-Type", "application/json; charset=utf-8")
