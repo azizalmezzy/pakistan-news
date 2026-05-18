@@ -7,71 +7,7 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2f5; color: #1a1a1a; direction: rtl; min-height: 100vh; }
-.topbar { background: #000; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
-.topbar-logo { color: #fff; font-size: 22px; font-weight: 800; }
-.topbar-dot { color: #1DA1F2; font-size: 20px; margin: 0 4px; }
-.topbar-title { color: #fff; font-size: 16px; font-weight: 600; }
-.topbar-sub { color: #888; font-size: 11px; margin-top: 2px; }
-.container { max-width: 900px; margin: 0 auto; padding: 20px 16px; }
-.setup-card { background: #fff; border-radius: 12px; border: 1px solid #e4e4e4; padding: 18px 20px; margin-bottom: 14px; }
-.setup-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 12px; color: #555; text-transform: uppercase; }
-.field-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.field-row label { font-size: 13px; color: #555; white-space: nowrap; min-width: 110px; }
-.field-row input { flex: 1; min-width: 200px; font-size: 13px; padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; color: #1a1a1a; direction: ltr; }
-.field-row input:focus { outline: none; border-color: #1DA1F2; }
-.help-link { font-size: 12px; color: #1DA1F2; text-decoration: none; padding: 7px 12px; border: 1px solid #1DA1F2; border-radius: 8px; white-space: nowrap; }
-.notice { font-size: 12px; color: #777; background: #f8f8f8; border-radius: 8px; padding: 8px 12px; margin-top: 10px; line-height: 1.6; }
-.controls-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
-.btn-fetch { padding: 9px 22px; background: #1DA1F2; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.15s; }
-.btn-fetch:hover { background: #0d8ecf; }
-.btn-fetch:disabled { opacity: 0.5; cursor: not-allowed; }
-.filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
-.filter-label { font-size: 12px; color: #888; }
-.filter-chip { padding: 5px 14px; border-radius: 20px; border: 1.5px solid #ddd; font-size: 12px; font-weight: 600; cursor: pointer; background: #fff; transition: all 0.15s; white-space: nowrap; }
-.filter-chip.on { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
-.stats-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-.stat { background: #fff; border: 1px solid #e4e4e4; border-radius: 10px; padding: 10px 16px; flex: 1; min-width: 70px; text-align: center; }
-.stat-n { font-size: 22px; font-weight: 800; color: #1DA1F2; }
-.stat-l { font-size: 11px; color: #999; margin-top: 2px; }
-.news-list { display: flex; flex-direction: column; gap: 14px; }
-.news-card { background: #fff; border: 1px solid #e4e4e4; border-radius: 14px; padding: 18px 20px; transition: box-shadow 0.15s; border-right: 5px solid #1DA1F2; }
-.news-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-.card-top { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
-.badge-src   { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 5px; white-space: nowrap; flex-shrink: 0; }
-.badge-topic { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px; background: #EEF6FF; color: #1565c0; flex-shrink: 0; }
-.card-title { font-size: 14px; font-weight: 600; line-height: 1.5; flex: 1; direction: ltr; text-align: left; min-width: 180px; }
-.card-title.ar { direction: rtl; text-align: right; }
-.card-meta { display: flex; gap: 14px; font-size: 11px; color: #aaa; margin-bottom: 14px; margin-top: 8px; flex-wrap: wrap; }
-.src-link { color: #1DA1F2; text-decoration: none; }
-.divider { border: none; border-top: 1px solid #f0f0f0; margin: 14px 0; }
-.tweet-label { font-size: 10px; color: #aaa; margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
-.tweet-box { background: #f7f9fa; border: 1px solid #eee; border-radius: 10px; padding: 12px 14px; font-size: 14px; color: #1a1a1a; line-height: 1.8; white-space: pre-wrap; min-height: 58px; direction: rtl; margin-bottom: 12px; }
-.tweet-ph { color: #ccc; font-size: 12px; }
-.card-footer { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.btn { padding: 7px 15px; font-size: 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-weight: 600; border: none; transition: all 0.15s; }
-.btn-gen { background: #1DA1F2; color: #fff; } .btn-gen:hover { background: #0d8ecf; } .btn-gen:disabled { opacity:.5; cursor:not-allowed; }
-.btn-out { background: #fff; color: #333; border: 1px solid #ddd; } .btn-out:hover { background: #f5f5f5; }
-.btn-ok  { background: #e6f4ea; color: #2e7d32; }
-.btn-x    { background: #000; color: #fff; }
-.btn-gen2 { background: #2e7d32; color: #fff; }
-.btn-gen2:hover { background: #1b5e20; }
-.btn-gen2:disabled { opacity:.5; cursor:not-allowed; }
-.title-translated { border-right: 3px solid #1DA1F2; padding-right: 8px; }
-.btn-img  { background: #7c3aed; color: #fff; }
-.btn-img:hover  { background: #6d28d9; }
-.btn-img:disabled  { opacity:.5; cursor:not-allowed; }
-.btn-img2 { background: #0d8ecf; color: #fff; }
-.btn-img2:hover { background: #0a7ab5; }
-.btn-img2:disabled { opacity:.5; cursor:not-allowed; }
-.img-card { border-radius: 12px; overflow: hidden; margin-bottom:8px; }
-.img-card img { width: 100%; display: block; border-radius: 12px; }
-.img-actions { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
-.char-info { font-size: 11px; color: #bbb; margin-right: auto; }
-.char-warn { color: #e53935 !important; font-weight: 700; }
-.empty { text-align: center; padding: 60px 20px; }
-.empty-icon { font-size: 52px; margin-bottom: 12px; }
-.empty p { font-size: 14px; color: #aaa; }
-.error-msg { background: #fdecea; color: #c62828; border: 1px solid #f5c6cb; border-radius: 10px; padding: 12px 16px; font-size: 13px; margin-bottom: 14px; }
+
 /* شاشة الدخول */
 .login-overlay { position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9999; }
 .login-box { background:#111;border-radius:16px;padding:40px;width:320px;text-align:center; }
@@ -81,59 +17,133 @@ body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2
 .login-input { width:100%;padding:12px 16px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#fff;font-size:15px;text-align:center;margin-bottom:12px;direction:rtl; }
 .login-input:focus { outline:none;border-color:#1DA1F2; }
 .login-btn { width:100%;padding:12px;background:#1DA1F2;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer; }
-.login-btn:hover { background:#0d8ecf; }
 .login-error { color:#f44336;font-size:12px;margin-top:8px;display:none; }
+
+/* شريط التبويبات */
+.tab-bar { background:#111;display:flex;gap:4px;padding:8px 16px; }
+.tab-btn { padding:8px 20px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:#888;transition:all 0.15s; }
+.tab-btn.active { background:#1DA1F2;color:#fff; }
+
 /* شريط المستخدم */
-.user-bar { background:#111;padding:6px 16px;display:flex;align-items:center;justify-content:space-between; }
-.user-bar-name { color:#888;font-size:12px; }
-.user-bar-name span { color:#1DA1F2;font-weight:600; }
-.tab-bar { background:#111; display:flex; gap:4px; padding:8px 16px; }
-.tab-btn { padding:8px 20px; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; background:transparent; color:#888; transition:all 0.15s; }
-.tab-btn.active { background:#1DA1F2; color:#fff; }
-.tab-btn:hover:not(.active) { background:#222; color:#fff; }
+.user-bar { background:#1a1a1a;padding:6px 16px;display:flex;align-items:center;justify-content:space-between; }
+.user-bar span { color:#888;font-size:12px; }
+.user-bar span b { color:#1DA1F2; }
+
+.container { max-width:900px;margin:0 auto;padding:20px 16px; }
+
+/* أقسام التبويب */
 .tab-content { display:none; }
 .tab-content.active { display:block; }
-.cost-card { background:#fff; border-radius:12px; border:1px solid #e4e4e4; padding:20px; margin-bottom:14px; }
-.cost-card h3 { font-size:14px; font-weight:700; margin-bottom:16px; color:#333; }
-.cost-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
-.cost-stat { background:#f8f9fa; border-radius:10px; padding:14px 16px; text-align:center; }
-.cost-stat-n { font-size:26px; font-weight:800; color:#1DA1F2; }
-.cost-stat-l { font-size:11px; color:#999; margin-top:3px; }
-.cost-stat.green .cost-stat-n { color:#2e7d32; }
-.cost-stat.red .cost-stat-n { color:#c62828; }
-.cost-stat.purple .cost-stat-n { color:#6a1b9a; }
-.calc-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
-.calc-row label { font-size:13px; color:#555; min-width:140px; }
-.calc-row input[type=number] { width:80px; font-size:13px; padding:6px 10px; border:1px solid #ddd; border-radius:8px; text-align:center; }
-.calc-row input[type=range] { flex:1; min-width:120px; }
-.calc-result { background:#EEF6FF; border-radius:10px; padding:14px 16px; margin-top:12px; }
-.calc-result-row { display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px; color:#444; }
-.calc-result-row.total { font-weight:700; font-size:15px; color:#1DA1F2; border-top:1px solid #ddd; padding-top:8px; margin-top:8px; }
-.balance-row { display:flex; gap:10px; align-items:center; margin-bottom:10px; flex-wrap:wrap; }
-.balance-row label { font-size:13px; color:#555; min-width:140px; }
-.balance-row input { width:100px; font-size:13px; padding:6px 10px; border:1px solid #ddd; border-radius:8px; }
-.balance-bar { height:8px; border-radius:4px; background:#e0e0e0; margin:6px 0; overflow:hidden; }
-.balance-fill { height:100%; border-radius:4px; background:#1DA1F2; transition:width 0.5s; }
+
+/* كارد الإعداد */
+.setup-card { background:#fff;border-radius:12px;border:1px solid #e4e4e4;padding:18px 20px;margin-bottom:14px; }
+.setup-card h3 { font-size:13px;font-weight:700;margin-bottom:12px;color:#555;text-transform:uppercase; }
+
+/* أزرار التحكم */
+.controls-row { display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px; }
+.btn-fetch { padding:9px 22px;background:#1DA1F2;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background 0.15s; }
+.btn-fetch:hover { background:#0d8ecf; }
+.btn-fetch:disabled { opacity:0.5;cursor:not-allowed; }
+select { font-size:13px;padding:8px 12px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#1a1a1a;cursor:pointer; }
+
+/* فلاتر الموضوع */
+.filter-row { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center; }
+.filter-chip { padding:5px 14px;border-radius:20px;border:1.5px solid #ddd;font-size:12px;font-weight:600;cursor:pointer;background:#fff;transition:all 0.15s;white-space:nowrap; }
+.filter-chip.on { background:#1a1a1a;color:#fff;border-color:#1a1a1a; }
+
+/* إحصائيات */
+.stats-bar { display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap; }
+.stat { background:#fff;border:1px solid #e4e4e4;border-radius:10px;padding:10px 16px;flex:1;min-width:70px;text-align:center; }
+.stat-n { font-size:22px;font-weight:800;color:#1DA1F2; }
+.stat-l { font-size:11px;color:#999;margin-top:2px; }
+
+/* بطاقات الأخبار */
+.news-list { display:flex;flex-direction:column;gap:14px; }
+.news-card { background:#fff;border:1px solid #e4e4e4;border-radius:14px;padding:18px 20px;transition:box-shadow 0.15s;border-right:5px solid #1DA1F2; }
+.news-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.08); }
+
+.card-top { display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;flex-wrap:wrap; }
+.badge-src { font-size:11px;font-weight:700;padding:4px 10px;border-radius:5px;white-space:nowrap;flex-shrink:0; }
+.badge-topic { font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;background:#EEF6FF;color:#1565c0;flex-shrink:0; }
+.card-title { font-size:14px;font-weight:600;line-height:1.5;flex:1;direction:ltr;text-align:left;min-width:180px; }
+.card-title.ar { direction:rtl;text-align:right; }
+.card-title-ar { font-size:13px;color:#555;margin:4px 0 8px;padding-right:10px;border-right:3px solid #1DA1F2;direction:rtl;text-align:right; }
+.card-meta { display:flex;gap:14px;font-size:11px;color:#aaa;margin-bottom:14px;flex-wrap:wrap; }
+.src-link { color:#1DA1F2;text-decoration:none; }
+
+/* صندوق التغريدات */
+.tweet-section { margin-bottom:10px; }
+.tweet-label { font-size:10px;color:#aaa;margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px; }
+.tweet-box { background:#f7f9fa;border:1px solid #eee;border-radius:10px;padding:12px 14px;font-size:14px;color:#1a1a1a;line-height:1.8;white-space:pre-wrap;min-height:50px;direction:rtl;margin-bottom:6px; }
+.tweet-ph { color:#ccc;font-size:12px; }
+.tweet-box-b { background:#f0f8f0;border:1px solid #c8e6c9; }
+
+/* أزرار الكارد */
+.card-footer { display:flex;gap:6px;align-items:center;flex-wrap:wrap; }
+.btn { padding:7px 13px;font-size:12px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:5px;font-weight:600;border:none;transition:all 0.15s; }
+.btn-a   { background:#1DA1F2;color:#fff; } .btn-a:hover { background:#0d8ecf; }
+.btn-b   { background:#2e7d32;color:#fff; } .btn-b:hover { background:#1b5e20; }
+.btn-out { background:#fff;color:#333;border:1px solid #ddd; } .btn-out:hover { background:#f5f5f5; }
+.btn-ok  { background:#e6f4ea;color:#2e7d32; }
+.btn-x   { background:#000;color:#fff; }
+.btn-img  { background:#7c3aed;color:#fff; } .btn-img:hover { background:#6d28d9; }
+.btn-img2 { background:#0d8ecf;color:#fff; } .btn-img2:hover { background:#0a7ab5; }
+.btn:disabled { opacity:.5;cursor:not-allowed; }
+.char-info { font-size:11px;color:#bbb;margin-right:auto; }
+.char-warn { color:#e53935!important;font-weight:700; }
+
+/* صورة */
+.img-card img { width:100%;border-radius:10px;display:block;margin-bottom:8px; }
+.img-actions { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px; }
+
+/* تبويب التكلفة */
+.cost-card { background:#fff;border-radius:12px;border:1px solid #e4e4e4;padding:20px;margin-bottom:14px; }
+.cost-card h3 { font-size:14px;font-weight:700;margin-bottom:16px;color:#333; }
+.cost-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px; }
+.cost-stat { background:#f8f9fa;border-radius:10px;padding:14px 16px;text-align:center; }
+.cost-stat-n { font-size:26px;font-weight:800;color:#1DA1F2; }
+.cost-stat-l { font-size:11px;color:#999;margin-top:3px; }
+.calc-row { display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap; }
+.calc-row label { font-size:13px;color:#555;min-width:140px; }
+.calc-row input[type=number] { width:80px;font-size:13px;padding:6px 10px;border:1px solid #ddd;border-radius:8px;text-align:center; }
+.calc-row input[type=range] { flex:1;min-width:120px; }
+.calc-result { background:#EEF6FF;border-radius:10px;padding:14px 16px;margin-top:12px; }
+.calc-result-row { display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;color:#444; }
+.calc-result-row.total { font-weight:700;font-size:15px;color:#1DA1F2;border-top:1px solid #ddd;padding-top:8px;margin-top:8px; }
+.balance-row { display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap; }
+.balance-row label { font-size:13px;color:#555;min-width:140px; }
+.balance-row input { width:100px;font-size:13px;padding:6px 10px;border:1px solid #ddd;border-radius:8px; }
+.balance-bar { height:8px;border-radius:4px;background:#e0e0e0;margin:6px 0;overflow:hidden; }
+.balance-fill { height:100%;border-radius:4px;background:#1DA1F2;transition:width .5s; }
 .balance-fill.warn { background:#ff9800; }
 .balance-fill.danger { background:#c62828; }
-.alert-box { border-radius:8px; padding:10px 14px; font-size:12px; margin-top:8px; display:none; }
-.alert-box.warn { background:#fff8e1; border:1px solid #ffe082; color:#f57f17; }
-.alert-box.danger { background:#fdecea; border:1px solid #ffcdd2; color:#c62828; }
-.alert-box.ok { background:#e8f5e9; border:1px solid #c8e6c9; color:#2e7d32; }
-@keyframes spin { to { transform: rotate(360deg); } }
+.alert-box { border-radius:8px;padding:10px 14px;font-size:12px;margin-top:8px;display:none; }
+.alert-box.warn { background:#fff8e1;border:1px solid #ffe082;color:#f57f17; }
+.alert-box.danger { background:#fdecea;border:1px solid #ffcdd2;color:#c62828; }
+.alert-box.ok { background:#e8f5e9;border:1px solid #c8e6c9;color:#2e7d32; }
+
+/* لوحة الإدارة */
+.admin-table { width:100%;border-collapse:collapse;font-size:13px; }
+.admin-table th { background:#f8f9fa;padding:10px 12px;text-align:right;font-weight:700;color:#333; }
+.admin-table td { padding:10px 12px;border-bottom:1px solid #f0f0f0;color:#444; }
+
+/* متفرقات */
+.empty { text-align:center;padding:60px 20px; }
+.empty-icon { font-size:52px;margin-bottom:12px; }
+.empty p { font-size:14px;color:#aaa; }
+.error-msg { background:#fdecea;color:#c62828;border:1px solid #f5c6cb;border-radius:10px;padding:12px 16px;font-size:13px;margin-bottom:14px; }
+.notice { font-size:12px;color:#777;background:#f8f8f8;border-radius:8px;padding:8px 12px;margin-top:10px;line-height:1.6; }
+
+@keyframes spin { to { transform:rotate(360deg); } }
 .spin   { display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px; }
 .spin-b { display:inline-block;width:10px;height:10px;border:2px solid #ddd;border-top-color:#1DA1F2;border-radius:50%;animation:spin .7s linear infinite; }
+.progress-bar  { background:#e3f2fd;border-radius:8px;height:6px;margin-bottom:14px;overflow:hidden;display:none; }
+.progress-fill { background:#1DA1F2;height:100%;border-radius:8px;transition:width .3s; }
+.monthly-chart { display:flex;align-items:flex-end;gap:6px;height:120px;padding:0 4px; }
+.monthly-labels { display:flex;gap:6px;margin-top:6px;padding:0 4px; }
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="topbar-logo">𝕏</div>
-  <div class="topbar-dot">·</div>
-  <div>
-    <div class="topbar-title">غرفة الأخبار السياسية — باكستان</div>
-    <div class="topbar-sub">آخر 7 أيام · أخبار سياسية · توليد تغريدات بالعامية السعودية</div>
-  </div>
-</div>
 
 <!-- شاشة الدخول -->
 <div class="login-overlay" id="loginOverlay">
@@ -141,7 +151,7 @@ body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2
     <div class="login-logo">🏛️</div>
     <div class="login-title">غرفة أخبار باكستان</div>
     <div class="login-sub">أدخل اسمك للمتابعة</div>
-    <input class="login-input" id="loginInput" placeholder="اسمك بالعربي أو الإنجليزي" maxlength="30" onkeydown="if(event.key==='Enter')doLogin()" />
+    <input class="login-input" id="loginInput" placeholder="اسمك" maxlength="30" onkeydown="if(event.key==='Enter')doLogin()" />
     <button class="login-btn" onclick="doLogin()">دخول ←</button>
     <div class="login-error" id="loginError">يرجى إدخال اسم صحيح (حرفان على الأقل)</div>
   </div>
@@ -149,43 +159,43 @@ body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2
 
 <!-- شريط المستخدم -->
 <div class="user-bar" id="userBar" style="display:none">
-  <div class="user-bar-name">مرحباً <span id="userBarName"></span> 👋</div>
-  <div class="user-bar-name" id="userBarCost">التكلفة: $0.0000</div>
+  <span>مرحباً <b id="userBarName"></b> 👋</span>
+  <span id="userBarCost">هذا الشهر: $0.0000</span>
 </div>
 
+<!-- تبويبات -->
 <div class="tab-bar">
-  <button class="tab-btn active" id="tab-news" onclick="switchTab('news')">📰 الأخبار</button>
-  <button class="tab-btn" id="tab-cost" onclick="switchTab('cost')">💰 تكلفتي</button>
-  <button class="tab-btn" id="tab-admin" onclick="switchTab('admin')">📊 لوحة الإدارة</button>
+  <button class="tab-btn active" id="tab-news"  onclick="switchTab('news')">📰 الأخبار</button>
+  <button class="tab-btn"        id="tab-cost"  onclick="switchTab('cost')">💰 تكلفتي</button>
+  <button class="tab-btn"        id="tab-admin" onclick="switchTab('admin')">📊 الإدارة</button>
 </div>
-<div class="container">
-<div id="tab-news-content" class="tab-content active">
-  <!-- المفاختيح محفوظة في السيرفر -->
-  <input type="hidden" id="claudeKey" value="FROM_SERVER" />
-  <input type="hidden" id="falKey" value="FROM_SERVER" />
 
-  <div class="controls-row">
+<div class="container">
+
+<!-- تبويب الأخبار -->
+<div id="tab-news-content" class="tab-content active">
+  <div class="controls-row" style="margin-top:4px">
     <button class="btn-fetch" id="fetchBtn" onclick="fetchAll()">🔄 سحب الأخبار</button>
   </div>
 
-  <!-- فلتر الموضوع -->
   <div class="filter-row" id="filterRow" style="display:none">
-    <span class="filter-label">فلتر:</span>
-    <div class="filter-chip on" id="chip-all"         onclick="filterBy(this,'all')">📋 الكل</div>
-    <div class="filter-chip"    id="chip-حكومة"       onclick="filterBy(this,'حكومة')">حكومة</div>
-    <div class="filter-chip"    id="chip-دبلوماسية"   onclick="filterBy(this,'دبلوماسية')">دبلوماسية</div>
+    <span style="font-size:12px;color:#888">فلتر:</span>
+    <div class="filter-chip on" id="chip-all"          onclick="filterBy(this,'all')">📋 الكل</div>
+    <div class="filter-chip"    id="chip-حكومة"        onclick="filterBy(this,'حكومة')">حكومة</div>
+    <div class="filter-chip"    id="chip-دبلوماسية"    onclick="filterBy(this,'دبلوماسية')">دبلوماسية</div>
     <div class="filter-chip"    id="chip-علاقات دولية" onclick="filterBy(this,'علاقات دولية')">علاقات دولية</div>
-    <div class="filter-chip"    id="chip-معارضة"      onclick="filterBy(this,'معارضة')">معارضة</div>
-    <div class="filter-chip"    id="chip-جيش"         onclick="filterBy(this,'جيش')">جيش</div>
-    <div class="filter-chip"    id="chip-برلمان"      onclick="filterBy(this,'برلمان')">برلمان</div>
-    <div class="filter-chip"    id="chip-قضاء"        onclick="filterBy(this,'قضاء')">قضاء</div>
-    <div class="filter-chip"    id="chip-انتخابات"    onclick="filterBy(this,'انتخابات')">انتخابات</div>
+    <div class="filter-chip"    id="chip-معارضة"       onclick="filterBy(this,'معارضة')">معارضة</div>
+    <div class="filter-chip"    id="chip-جيش"          onclick="filterBy(this,'جيش')">جيش</div>
+    <div class="filter-chip"    id="chip-برلمان"       onclick="filterBy(this,'برلمان')">برلمان</div>
+    <div class="filter-chip"    id="chip-قضاء"         onclick="filterBy(this,'قضاء')">قضاء</div>
+    <div class="filter-chip"    id="chip-انتخابات"     onclick="filterBy(this,'انتخابات')">انتخابات</div>
     <div class="filter-chip"    id="chip-الهند"        onclick="filterBy(this,'الهند')" style="background:#fff0f0;border-color:#ffcdd2;color:#c62828">🇮🇳 الهند</div>
-    <div class="filter-chip"    id="chip-أفغانستان"   onclick="filterBy(this,'أفغانستان')" style="background:#fff8e1;border-color:#ffe082;color:#f57f17">🇦🇫 أفغانستان</div>
-    <div class="filter-chip"    id="chip-أمن وتهريب"  onclick="filterBy(this,'أمن وتهريب')" style="background:#f3e5f5;border-color:#ce93d8;color:#6a1b9a">🚨 أمن وتهريب</div>
+    <div class="filter-chip"    id="chip-أفغانستان"    onclick="filterBy(this,'أفغانستان')" style="background:#fff8e1;border-color:#ffe082;color:#f57f17">🇦🇫 أفغانستان</div>
+    <div class="filter-chip"    id="chip-أمن وتهريب"   onclick="filterBy(this,'أمن وتهريب')" style="background:#f3e5f5;border-color:#ce93d8;color:#6a1b9a">🚨 أمن وتهريب</div>
   </div>
 
   <div id="errorBox" style="display:none" class="error-msg"></div>
+  <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
 
   <div id="statsBar" style="display:none" class="stats-bar">
     <div class="stat"><div class="stat-n" id="sN">0</div><div class="stat-l">خبر</div></div>
@@ -197,472 +207,106 @@ body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2
   <div class="news-list" id="newsList">
     <div class="empty"><div class="empty-icon">🏛️</div><p>اضغط "سحب الأخبار" للبدء</p></div>
   </div>
-</div><!-- end tab-news-content -->
+</div>
 
+<!-- تبويب التكلفة -->
 <div id="tab-cost-content" class="tab-content">
-  <!-- إحصائيات الجلسة -->
   <div class="cost-card">
-    <h3>📊 إحصائيات الجلسة الحالية</h3>
-    <!-- الشهر الحالي -->
-    <div style="font-size:12px;font-weight:700;color:#1DA1F2;margin-bottom:10px;display:flex;align-items:center;gap:6px">
-      📅 <span id="currentMonthLabel">الشهر الحالي</span>
-      <span style="background:#e3f2fd;color:#1565c0;padding:2px 8px;border-radius:10px;font-size:10px" id="monthResetLabel"></span>
-    </div>
+    <h3>📊 إحصائيات الشهر الحالي</h3>
+    <div style="font-size:12px;color:#1DA1F2;margin-bottom:12px;font-weight:600" id="currentMonthLabel"></div>
     <div class="cost-grid">
       <div class="cost-stat"><div class="cost-stat-n" id="cs-tweets">0</div><div class="cost-stat-l">تغريدة هذا الشهر</div></div>
-      <div class="cost-stat purple"><div class="cost-stat-n" id="cs-images">0</div><div class="cost-stat-l">صورة هذا الشهر</div></div>
-      <div class="cost-stat green"><div class="cost-stat-n" id="cs-cost">$0.00</div><div class="cost-stat-l">تكلفة التغريدات</div></div>
-      <div class="cost-stat red"><div class="cost-stat-n" id="cs-img-cost">$0.00</div><div class="cost-stat-l">تكلفة الصور</div></div>
+      <div class="cost-stat"><div class="cost-stat-n" id="cs-images" style="color:#6a1b9a">0</div><div class="cost-stat-l">صورة هذا الشهر</div></div>
+      <div class="cost-stat"><div class="cost-stat-n" id="cs-month" style="color:#1565c0">$0.00</div><div class="cost-stat-l">تكلفة الشهر</div></div>
+      <div class="cost-stat"><div class="cost-stat-n" id="cs-total" style="color:#2e7d32">$0.00</div><div class="cost-stat-l">إجمالي كل الأوقات</div></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
-      <div class="cost-stat" style="background:#f0f4ff">
-        <div style="font-size:20px;font-weight:800;color:#1565c0" id="cs-month-total">$0.00</div>
-        <div style="font-size:11px;color:#888;margin-top:3px">إجمالي هذا الشهر</div>
-      </div>
-      <div class="cost-stat" style="background:#f9fbe7">
-        <div style="font-size:20px;font-weight:800;color:#558b2f" id="cs-total">$0.00</div>
-        <div style="font-size:11px;color:#888;margin-top:3px">إجمالي كل الأوقات</div>
-      </div>
-    </div>
-    <!-- رسم بياني شهري -->
-    <div style="margin-top:20px">
-      <div style="font-size:12px;font-weight:700;color:#555;margin-bottom:12px">📊 الإنفاق الشهري (آخر 12 شهر)</div>
-      <div id="monthlyChart" style="display:flex;align-items:flex-end;gap:6px;height:120px;padding:0 4px"></div>
-      <div id="monthlyChartLabels" style="display:flex;gap:6px;margin-top:6px;padding:0 4px"></div>
-    </div>
+    <div style="font-size:12px;font-weight:700;color:#555;margin:16px 0 10px">📊 آخر 12 شهر</div>
+    <div class="monthly-chart" id="monthlyChart"></div>
+    <div class="monthly-labels" id="monthlyLabels"></div>
   </div>
 
-  <!-- حاسبة التكلفة الشهرية -->
   <div class="cost-card">
     <h3>🧮 حاسبة التكلفة الشهرية</h3>
-    <div class="calc-row">
-      <label>عدد التغريدات يومياً</label>
-      <input type="number" id="calc-tweets" value="10" min="0" max="500" oninput="calcCost()">
-      <input type="range" min="0" max="100" value="10" oninput="this.previousElementSibling.value=this.value;calcCost()">
-    </div>
-    <div class="calc-row">
-      <label>عدد الصور يومياً</label>
-      <input type="number" id="calc-images" value="5" min="0" max="200" oninput="calcCost()">
-      <input type="range" min="0" max="50" value="5" oninput="this.previousElementSibling.value=this.value;calcCost()">
-    </div>
-    <div class="calc-row">
-      <label>أيام الاستخدام بالشهر</label>
-      <input type="number" id="calc-days" value="25" min="1" max="31" oninput="calcCost()">
-      <input type="range" min="1" max="31" value="25" oninput="this.previousElementSibling.value=this.value;calcCost()">
-    </div>
-    <div class="calc-result" id="calc-result">
-      <div class="calc-result-row"><span>تكلفة التغريدات الشهرية</span><span id="cr-tweets">$0.00</span></div>
-      <div class="calc-result-row"><span>تكلفة الصور الشهرية</span><span id="cr-images">$0.00</span></div>
+    <div class="calc-row"><label>تغريدات يومياً</label><input type="number" id="calc-tweets" value="10" min="0" oninput="calcCost()"><input type="range" min="0" max="100" value="10" oninput="this.previousElementSibling.value=this.value;calcCost()"></div>
+    <div class="calc-row"><label>صور يومياً</label><input type="number" id="calc-images" value="5" min="0" oninput="calcCost()"><input type="range" min="0" max="50" value="5" oninput="this.previousElementSibling.value=this.value;calcCost()"></div>
+    <div class="calc-row"><label>أيام الاستخدام</label><input type="number" id="calc-days" value="25" min="1" max="31" oninput="calcCost()"><input type="range" min="1" max="31" value="25" oninput="this.previousElementSibling.value=this.value;calcCost()"></div>
+    <div class="calc-result">
+      <div class="calc-result-row"><span>تكلفة التغريدات</span><span id="cr-tweets">$0.00</span></div>
+      <div class="calc-result-row"><span>تكلفة الصور</span><span id="cr-images">$0.00</span></div>
       <div class="calc-result-row total"><span>الإجمالي الشهري</span><span id="cr-total">$0.00</span></div>
-      <div style="margin-top:10px;font-size:12px;color:#666" id="cr-recommendation"></div>
+      <div style="margin-top:8px;font-size:12px;color:#666" id="cr-rec"></div>
     </div>
   </div>
 
-  <!-- متابعة الرصيد -->
   <div class="cost-card">
-    <h3>💳 متابعة الرصيد والشحن</h3>
-
+    <h3>💳 متابعة الرصيد</h3>
     <div style="font-size:13px;font-weight:600;color:#333;margin-bottom:10px">Anthropic (Claude)</div>
-    <div class="balance-row">
-      <label>رصيدك الحالي ($)</label>
-      <input type="number" id="bal-claude" value="5" step="0.1" min="0" oninput="updateBalance()">
-    </div>
+    <div class="balance-row"><label>الرصيد الحالي ($)</label><input type="number" id="bal-claude" value="5" step="0.1" oninput="updateBalance()"></div>
     <div class="balance-bar"><div class="balance-fill" id="bal-claude-bar" style="width:100%"></div></div>
     <div style="font-size:12px;color:#888;margin-bottom:4px" id="bal-claude-info"></div>
     <div class="alert-box" id="bal-claude-alert"></div>
-
     <div style="font-size:13px;font-weight:600;color:#333;margin:14px 0 10px">fal.ai (الصور)</div>
-    <div class="balance-row">
-      <label>رصيدك الحالي ($)</label>
-      <input type="number" id="bal-fal" value="10" step="0.1" min="0" oninput="updateBalance()">
-    </div>
+    <div class="balance-row"><label>الرصيد الحالي ($)</label><input type="number" id="bal-fal" value="10" step="0.1" oninput="updateBalance()"></div>
     <div class="balance-bar"><div class="balance-fill" id="bal-fal-bar" style="width:100%"></div></div>
     <div style="font-size:12px;color:#888;margin-bottom:4px" id="bal-fal-info"></div>
     <div class="alert-box" id="bal-fal-alert"></div>
   </div>
+</div>
 
-  <!-- أسعار مرجعية -->
-  <div class="cost-card">
-    <h3>📋 الأسعار المرجعية</h3>
-    <table style="width:100%;border-collapse:collapse;font-size:13px">
-      <tr style="background:#f8f9fa">
-        <td style="padding:8px 12px;border-radius:6px 0 0 6px;font-weight:600">التغريدة الواحدة</td>
-        <td style="padding:8px 12px;color:#2e7d32;font-weight:700">~$0.0004</td>
-        <td style="padding:8px 12px;color:#888">Claude Haiku</td>
-      </tr>
-      <tr>
-        <td style="padding:8px 12px;font-weight:600">الصورة الواحدة</td>
-        <td style="padding:8px 12px;color:#6a1b9a;font-weight:700">~$0.025</td>
-        <td style="padding:8px 12px;color:#888">fal.ai FLUX</td>
-      </tr>
-      <tr style="background:#f8f9fa">
-        <td style="padding:8px 12px;border-radius:6px 0 0 6px;font-weight:600">سحب الأخبار</td>
-        <td style="padding:8px 12px;color:#1565c0;font-weight:700">$0.00</td>
-        <td style="padding:8px 12px;color:#888">Google News RSS مجاني</td>
-      </tr>
-    </table>
-  </div>
-</div><!-- end tab-cost-content -->
-
+<!-- تبويب الإدارة -->
 <div id="tab-admin-content" class="tab-content">
   <div class="cost-card">
-    <h3>📊 إحصائيات جميع المستخدمين</h3>
-    <button class="btn btn-gen" onclick="loadAdminStats()" style="margin-bottom:16px">🔄 تحديث</button>
-    <div id="adminTable">
-      <div style="text-align:center;color:#aaa;padding:20px">اضغط تحديث لتحميل البيانات</div>
-    </div>
+    <h3>📊 جميع المستخدمين</h3>
+    <button class="btn-fetch" style="margin-bottom:16px" onclick="loadAdminStats()">🔄 تحديث</button>
+    <div id="adminTable"><div style="text-align:center;color:#aaa;padding:20px">اضغط تحديث</div></div>
   </div>
   <div class="cost-card">
-    <h3>📈 تفاصيل مستخدم معين</h3>
-    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-      <input id="adminUserInput" placeholder="اسم المستخدم" style="flex:1;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:13px;direction:rtl" />
-      <button class="btn btn-gen" onclick="loadUserDetail()">عرض</button>
+    <h3>📈 تفاصيل مستخدم</h3>
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <input id="adminUserInput" placeholder="اسم المستخدم" style="flex:1;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:13px;direction:rtl">
+      <button class="btn-fetch" onclick="loadUserDetail()">عرض</button>
     </div>
     <div id="userDetail"></div>
   </div>
-</div><!-- end tab-admin-content -->
+</div>
 
 </div><!-- end container -->
 
 <script>
-let allArticles = [], filtered = [], twCount = 0, twMap = {}, currentFilter = 'all';
+const TWEET_COST = 0.0004, IMG_COST = 0.025;
+let allArticles = [], filtered = [], twMap = {}, twCount = 0, currentFilter = 'all';
+let currentUser = '';
+let sessionTweets = 0, sessionImages = 0;
 
-window.onload = () => {
-  // جلب المفاتيح من السيرفر
-  fetch('/api/config').then(r=>r.json()).then(d=>{
-    document.getElementById('claudeKey').value = d.claude_key || '';
-    document.getElementById('falKey').value = d.fal_key || '';
-  });
-};
-function saveKey() {
-  // المفاتيح من السيرفر
-}
-function showError(msg) {
-  const b = document.getElementById('errorBox');
-  b.textContent = '⚠️ ' + msg; b.style.display = 'block';
-}
-function ago(d) {
-  if (!d) return '';
-  const m = Math.floor((Date.now() - new Date(d)) / 60000);
-  if (isNaN(m) || m < 0) return '';
-  if (m < 1) return 'الآن';
-  if (m < 60) return 'منذ ' + m + ' د';
-  const h = Math.floor(m / 60);
-  if (h < 24) return 'منذ ' + h + ' س';
-  const day = Math.floor(h / 24);
-  return 'منذ ' + day + (day === 1 ? ' يوم' : ' أيام');
-}
-
-async function fetchAll() {
-  saveKey();
-  const btn = document.getElementById('fetchBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spin"></span> جاري السحب...';
-  document.getElementById('errorBox').style.display = 'none';
-
-  try {
-    const r = await fetch('/api/news');
-    const data = await r.json();
-    if (!data.articles || !data.articles.length) {
-      showError('لم تُعثر على أخبار في آخر 7 أيام');
-      btn.disabled = false; btn.innerHTML = '🔄 سحب الأخبار'; return;
-    }
-    allArticles = data.articles;
-    filtered = [...allArticles];
-    twMap = {}; twCount = 0;
-    currentFilter = 'all';
-    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('on'));
-    document.getElementById('chip-all').classList.add('on');
-
-    renderAll(filtered);
-    document.getElementById('sN').textContent  = allArticles.length;
-    document.getElementById('sS').textContent  = new Set(allArticles.map(a => a.source)).size;
-    document.getElementById('sT').textContent  = 0;
-    document.getElementById('sTm').textContent = new Date().toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'});
-    document.getElementById('statsBar').style.display = 'flex';
-    document.getElementById('filterRow').style.display = 'flex';
-  } catch(e) { showError('خطأ في الاتصال: ' + e.message); }
-
-  btn.disabled = false;
-  btn.innerHTML = '🔄 سحب الأخبار';
-}
-
-function filterBy(el, topic) {
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('on'));
-  el.classList.add('on');
-  currentFilter = topic;
-  filtered = topic === 'all' ? [...allArticles] : allArticles.filter(a => a.topic === topic);
-  twMap = {};
-  renderAll(filtered);
-  document.getElementById('sN').textContent = filtered.length;
-}
-
-const SC=[['#e8f5e9','#2e7d32'],['#e3f2fd','#1565c0'],['#fff3e0','#e65100'],['#fce4ec','#880e4f'],
-          ['#f3e5f5','#6a1b9a'],['#fffde7','#f57f17'],['#e0f7fa','#006064'],['#fbe9e7','#bf360c'],['#e8eaf6','#283593']];
+const SC=[['#e8f5e9','#2e7d32'],['#e3f2fd','#1565c0'],['#fff3e0','#e65100'],['#fce4ec','#880e4f'],['#f3e5f5','#6a1b9a'],['#fffde7','#f57f17'],['#e0f7fa','#006064'],['#fbe9e7','#bf360c'],['#e8eaf6','#283593']];
 const CM={}; let ci=0;
 function gc(s){if(!CM[s])CM[s]=SC[ci++%SC.length];return CM[s];}
 
-function renderAll(list) {
-  const el = document.getElementById('newsList');
-  if (!list.length) { el.innerHTML='<div class="empty"><div class="empty-icon">🔍</div><p>لا توجد نتائج</p></div>'; return; }
-  el.innerHTML = list.map((a, i) => {
-    const idx = allArticles.indexOf(a);
-    const [bg,fg] = gc(a.source);
-    const isAr = /[\u0600-\u06FF]/.test(a.title);
-    return '<div class="news-card" data-idx="'+idx+'">' +
-      '<div class="card-top">' +
-        '<span class="badge-src" style="background:'+bg+';color:'+fg+'">'+a.source+'</span>' +
-        '<span class="badge-topic">'+a.topic+'</span>' +
-        '<div class="card-title'+(isAr?' ar':'')+'">' + a.title + '</div>' +
-      '</div>' +
-      (!isAr && a.titleAr ? '<div class="card-title ar title-translated" style="font-size:13px;color:#555;margin-bottom:4px">🌐 ' + a.titleAr + '</div>' : '') +
-      '<div class="card-meta">' +
-        (a.publishedAt?'<span>🕐 '+ago(a.publishedAt)+'</span>':'') +
-        '<a href="'+a.url+'" target="_blank" class="src-link">🔗 المصدر</a>' +
-      '</div>' +
-      '<hr class="divider">' +
-      '<div class="tweet-label">𝕏 التغريدة</div>' +
-      '<div class="tweet-label">𝕏 أسلوب A</div>' +
-      '<div class="tweet-box" id="tb-'+idx+'"><span class="tweet-ph">اضغط توليد تغريدة</span></div>' +
-      '<div class="tweet-label" id="lbl-b-'+idx+'" style="display:none">𝕏 أسلوب B</div>' +
-      '<div class="tweet-box" id="tb-b-'+idx+'" style="display:none"><span class="tweet-ph">اضغط أسلوب ثمانية</span></div>' +
-      '<div id="img-box-'+idx+'"  style="display:none;margin-bottom:12px"></div>' +
-      '<div id="img-box2-'+idx+'" style="display:none;margin-bottom:12px"></div>' +
-      '<div class="card-footer">' +
-        '<button class="btn btn-gen"  id="gen-'+idx+'"   onclick="genTweet('+idx+',' + "'a'" + ')">✨ أسلوب A</button>' +
-        '<button class="btn btn-gen2" id="gen-b-'+idx+'" onclick="genTweet('+idx+',' + "'b'" + ')">📝 أسلوب B</button>' +
-        '<button class="btn btn-out"  id="cp-'+idx+'"    onclick="copyT('+idx+',' + "'a'" + ')"  style="display:none">📋 نسخ A</button>' +
-        '<button class="btn btn-out"  id="cp-b-'+idx+'"  onclick="copyT('+idx+',' + "'b'" + ')"  style="display:none">📋 نسخ B</button>' +
-        '<button class="btn btn-x"    id="ox-'+idx+'"    onclick="openX('+idx+',' + "'a'" + ')"  style="display:none">𝕏 نشر A</button>' +
-        '<button class="btn btn-x"    id="ox-b-'+idx+'"  onclick="openX('+idx+',' + "'b'" + ')"  style="display:none">𝕏 نشر B</button>' +
-        '<button class="btn btn-img"  id="img-'+idx+'"   onclick="genImg('+idx+')"    style="display:none">🖼️ صورة AI</button>' +
-        '<button class="btn btn-img2" id="img2-'+idx+'"  onclick="fetchImg('+idx+')"  style="display:none">📰 صورة الخبر</button>' +
-        '<span class="char-info" id="ch-'+idx+'"></span>' +
-      '</div></div>';
-  }).join('');
-}
-
-async function genTweet(i, style) {
-  style = style || 'a';
-  saveKey();
-  const cKey = document.getElementById('claudeKey').value.trim();
-  const a = allArticles[i];
-  const tbId = style === 'b' ? 'tb-b-'+i : 'tb-'+i;
-  const gbId = style === 'b' ? 'gen-b-'+i : 'gen-'+i;
-  const tb = document.getElementById(tbId);
-  const gb = document.getElementById(gbId);
-  gb.disabled = true;
-  tb.innerHTML = '<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#888"><span class="spin-b"></span> جاري التوليد...</div>';
-  try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':cKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({ model:'claude-haiku-4-5-20251001', max_tokens:350,
-        messages:[{role:'user',content:
-          (style === 'b' ?
-          'أنت كاتب في ثمانية — أسلوبك فصيح سلس قريب من العامية لكن خالٍ من الحشو.\n' +
-          'حوّل هذا الخبر إلى تغريدة تعكس أسلوب ثمانية في الكتابة.\n\n' +
-          'الأسلوب:\n' +
-          '- ابدأ بجملة فعلية قصيرة تحمل معنى عميقاً تُوقف القارئ\n' +
-          '- اروِ الخبر لا تُعلق عليه — القارئ يستنتج\n' +
-          '- لغة رصينة بلا مبالغة أو تعجب — الحدث نفسه يتكلم\n' +
-          '- لا هاشتاقات، لا إيموجي، لا علامات تعجب\n' +
-          '- جملة أو جملتان بحد أقصى — بين 100 و 180 حرف\n' +
-          '- نص التغريدة فقط بلا مقدمة\n\n'
-          :
-          'أنت سعودي متابع للشأن الباكستاني، تكتب تغريدات بالعامية السعودية.\n' +
-          'حوّل هذا الخبر إلى تغريدة سعودية تدافع عن باكستان وتعبّر عن موقفها.\n\n' +
-          'إذا الموضوع "الهند": أسلوب دفاعي قوي يُظهر العدوان الهندي والصمود الباكستاني.\n' +
-          'إذا الموضوع "أفغانستان": أسلوب يُظهر الخطر القادم من الحدود وتضحيات باكستان.\n' +
-          'إذا الموضوع "أمن وتهريب": أسلوب يُظهر حجم التهديد ودور باكستان في مكافحته.\n' +
-          'بقية المواضيع: عامية سعودية دافئة تُظهر القوة والصمود الباكستاني.\n\n' +
-          'الأسلوب العام:\n' +
-          '- عامية سعودية طبيعية: يعني، والله، ما يصير\n' +
-          '- ابدأ بجملة تشد القارئ\n' +
-          '- إيموجي واحد أو اثنين بس\n' +
-          '- هاشتاقان: #باكستان + هاشتاق عربي مناسب\n' +
-          '- بين 180 و 240 حرف، نص التغريدة بس بدون مقدمة\n\n') +
-          'الموضوع: ' + a.topic + '\n' +
-          'الخبر: ' + (a.titleAr || a.title)
-        }]
-      })
-    });
-    const d = await r.json();
-    if (d.error) throw new Error(d.error.message);
-    const tweet = (d.content?.[0]?.text||'').trim();
-    if (!tweet) throw new Error('لم يُرجع نصاً');
-    tb.textContent = tweet;
-    if (style === 'b') { twMap['b_'+i] = tweet; document.getElementById('cp-b-'+i).style.display='flex'; document.getElementById('ox-b-'+i).style.display='flex'; }
-    else { twMap[i] = tweet; document.getElementById('cp-'+i).style.display='flex'; document.getElementById('ox-'+i).style.display='flex'; document.getElementById('img-'+i).style.display='flex'; document.getElementById('img2-'+i).style.display='flex'; }
-    const len = tweet.length;
-    const ch = document.getElementById('ch-'+i);
-    ch.textContent = len + ' / 280';
-    ch.className = 'char-info' + (len > 270 ? ' char-warn' : '');
-    twCount++; document.getElementById('sT').textContent = twCount;
-    trackTweet();
-  } catch(e) { tb.textContent = '⚠️ ' + (e.message||'خطأ'); }
-  gb.disabled = false;
-}
-
-async function copyT(i, style) {
-  style = style || 'a';
-  const key = style === 'b' ? 'b_'+i : i;
-  const t = twMap[key]; if (!t) return;
-  const btnId = style === 'b' ? 'cp-b-'+i : 'cp-'+i;
-  const origText = style === 'b' ? '📋 نسخ B' : '📋 نسخ A';
-  try {
-    await navigator.clipboard.writeText(t);
-    const b = document.getElementById(btnId);
-    b.classList.add('btn-ok'); b.textContent = '✓ تم النسخ';
-    setTimeout(()=>{b.classList.remove('btn-ok'); b.textContent=origText;}, 2000);
-  } catch(e){}
-}
-function openX(i, style) {
-  style = style || 'a';
-  const key = style === 'b' ? 'b_'+i : i;
-  const t = twMap[key];
-  if (t) window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(t),'_blank');
-}
-
-async function genImg(i) {
-  saveKey();
-  const falKey = document.getElementById('falKey').value.trim();
-  if (!falKey) { showError('أدخل مفتاح fal.ai لتوليد الصور'); return; }
-  const a = allArticles[i];
-  const tweet = twMap[i] || '';
-  const imgBtn = document.getElementById('img-'+i);
-  const imgBox = document.getElementById('img-box-'+i);
-  imgBtn.disabled = true;
-  imgBtn.textContent = '⏳ جاري التوليد...';
-  imgBox.style.display = 'block';
-  imgBox.innerHTML = '<div style="background:#f3f4f6;border-radius:12px;height:200px;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:13px">جاري توليد الصورة...</div>';
-
-  // بناء prompt ذكي حسب الموضوع
-  const topicVisuals = {
-    'حكومة':        'Pakistani government officials in meeting room, Islamabad parliament building, South Asian politicians',
-    'انتخابات':     'Pakistani election, voting booths, ballot boxes, Pakistani voters, Islamabad',
-    'دبلوماسية':    'diplomatic meeting, Pakistani foreign minister, handshake, conference room, flags',
-    'علاقات دولية': 'international summit, Pakistani delegation, world leaders meeting, United Nations',
-    'الهند':        'Pakistan India border, Line of Control, Pakistani soldiers at border post, Kashmir mountains',
-    'أفغانستان':    'Pakistan Afghanistan border, Torkham border crossing, Pakistani military checkpoint, Khyber Pass',
-    'أمن وتهريب':   'Pakistani security forces, anti-smuggling operation, border patrol, customs officers',
-    'معارضة':       'Pakistani political rally, crowd protest, PTI supporters, Lahore political gathering',
-    'جيش':          'Pakistan Army soldiers, Pakistani military parade, army uniform green, Rawalpindi',
-    'برلمان':       'Pakistan National Assembly building Islamabad, parliamentary session, Pakistani lawmakers',
-    'قضاء':         'Pakistan Supreme Court building Islamabad, Pakistani judge, courtroom, scales of justice',
-  };
-  const topicHint = topicVisuals[a.topic] || 'Pakistani political scene, Islamabad, South Asian context';
-  const titleHint = a.title.slice(0, 100);
-  const prompt = 
-    'Editorial news photograph for Pakistani political news story. ' +
-    'Scene: ' + topicHint + '. ' +
-    'Context: ' + titleHint + '. ' +
-    'Style: photorealistic documentary photography, natural lighting, high resolution. ' +
-    'Important: show South Asian people with Pakistani features, Pakistani flags, Arabic/Urdu signage where appropriate. ' +
-    'No text overlay, no watermark, no European or Western faces.';
-
-  try {
-    const r = await fetch('https://fal.run/fal-ai/flux/dev', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Key ' + falKey
-      },
-      body: JSON.stringify({
-        prompt: prompt,
-        image_size: 'landscape_16_9',
-        num_inference_steps: 28,
-        num_images: 1,
-        enable_safety_checker: true
-      })
-    });
-    const d = await r.json();
-    if (d.detail || d.error) throw new Error(d.detail || d.error);
-    const imgUrl = d.images?.[0]?.url;
-    if (!imgUrl) throw new Error('لم تُولَّد صورة');
-
-    imgBox.innerHTML =
-      '<div class="img-card"><img src="' + imgUrl + '" alt="صورة التغريدة" /></div>' +
-      '<div class="img-actions">' +
-        '<a href="' + imgUrl + '" download="pakistan_news_' + i + '.jpg" class="btn btn-out" style="text-decoration:none">⬇️ تحميل</a>' +
-        '<button class="btn btn-out" onclick="copyImgUrl(' + i + ',\'' + imgUrl + '\')">🔗 نسخ الرابط</button>' +
-      '</div>';
-    imgBtn.textContent = '🖼️ صورة جديدة';
-    trackImage();
-  } catch(e) {
-    imgBox.innerHTML = '<div style="color:#c62828;font-size:12px;padding:8px">⚠️ ' + (e.message||'خطأ في توليد الصورة') + '</div>';
-    imgBtn.textContent = '🖼️ صورة';
-  }
-  imgBtn.disabled = false;
-}
-
-async function copyImgUrl(i, url) {
-  try {
-    await navigator.clipboard.writeText(url);
-    alert('تم نسخ رابط الصورة');
-  } catch(e) {}
-}
-
-async function fetchImg(i) {
-  const a = allArticles[i];
-  const btn  = document.getElementById('img2-'+i);
-  const box  = document.getElementById('img-box2-'+i);
-  btn.disabled = true;
-  btn.textContent = '⏳ جاري السحب...';
-  box.style.display = 'block';
-
-  // محاولة سحب الصورة من RSS أو Open Graph
-  try {
-    // نحاول نجلب meta tag للصورة من الخبر عبر السيرفر
-    const r = await fetch('/api/og-image?url=' + encodeURIComponent(a.url));
-    const d = await r.json();
-    if (d.image) {
-      const imgHtml = '<div class="img-card"><img src="' + d.image + '" alt="صورة الخبر" /></div>' +
-        '<div class="img-actions">' +
-        '<a href="' + d.image + '" target="_blank" class="btn btn-out" style="text-decoration:none">🔗 فتح الصورة</a>' +
-        '</div>';
-      box.innerHTML = imgHtml;
-    } else {
-      box.innerHTML = '<div style="background:#fff8e1;border-radius:10px;padding:12px;font-size:12px;color:#f57f17">⚠️ هذا المصدر لا يوفر صورة مباشرة — جرّب "توليد صورة AI" بدلاً</div>';
-    }
-  } catch(e) {
-    box.innerHTML = '<div style="color:#c62828;font-size:12px;padding:8px">⚠️ تعذّر سحب الصورة</div>';
-  }
-  btn.disabled = false;
-  btn.textContent = '📰 صورة الخبر';
-}
-
-// ---- تبديل التبويب ----
-function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  document.getElementById('tab-' + tab + '-content').classList.add('active');
-  if (tab === 'cost') { calcCost(); updateBalance(); loadMyStats(); }
-  if (tab === 'admin') { loadAdminStats(); }
-}
-
 // ---- تسجيل الدخول ----
-let currentUser = '';
-
 async function doLogin() {
   const name = document.getElementById('loginInput').value.trim();
-  if (name.length < 2) {
-    document.getElementById('loginError').style.display = 'block'; return;
-  }
-  const r = await fetch('/api/register?username=' + encodeURIComponent(name));
-  const d = await r.json();
-  if (d.ok) {
-    currentUser = d.username;
+  if (name.length < 2) { document.getElementById('loginError').style.display = 'block'; return; }
+  try {
+    const r = await fetch('/api/register?username=' + encodeURIComponent(name));
+    const d = await r.json();
+    if (d.ok) {
+      currentUser = d.username;
+      localStorage.setItem('pak_username', currentUser);
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('userBar').style.display = 'flex';
+      document.getElementById('userBarName').textContent = name;
+      loadMyStats();
+    }
+  } catch(e) {
+    currentUser = name.toLowerCase();
     localStorage.setItem('pak_username', currentUser);
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('userBar').style.display = 'flex';
     document.getElementById('userBarName').textContent = name;
-    loadMyStats();
   }
 }
 
-window.addEventListener('load', () => {
+window.onload = () => {
   const saved = localStorage.getItem('pak_username');
   if (saved) {
     currentUser = saved;
@@ -671,193 +315,392 @@ window.addEventListener('load', () => {
     document.getElementById('userBarName').textContent = saved;
     loadMyStats();
   }
-});
+  fetch('/api/config').then(r=>r.json()).then(()=>{}).catch(()=>{});
+};
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.getElementById('tab-'+tab+'-content').classList.add('active');
+  if (tab==='cost') { calcCost(); updateBalance(); loadMyStats(); }
+  if (tab==='admin') loadAdminStats();
+}
+
+function showError(msg) {
+  const b = document.getElementById('errorBox');
+  b.textContent = '⚠️ ' + msg; b.style.display = 'block';
+  setTimeout(()=>b.style.display='none', 6000);
+}
+
+function ago(d) {
+  if (!d) return '';
+  const m = Math.floor((Date.now()-new Date(d))/60000);
+  if (isNaN(m)||m<0) return '';
+  if (m<1) return 'الآن';
+  if (m<60) return 'منذ '+m+' د';
+  const h=Math.floor(m/60);
+  if (h<24) return 'منذ '+h+' س';
+  const day=Math.floor(h/24);
+  return 'منذ '+day+(day===1?' يوم':' أيام');
+}
+
+// ---- سحب الأخبار ----
+async function fetchAll() {
+  const btn = document.getElementById('fetchBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> جاري السحب...';
+  document.getElementById('errorBox').style.display = 'none';
+  try {
+    const r = await fetch('/api/news');
+    const data = await r.json();
+    if (!data.articles || !data.articles.length) {
+      showError('لم تُعثر على أخبار');
+      btn.disabled=false; btn.innerHTML='🔄 سحب الأخبار'; return;
+    }
+    allArticles = data.articles;
+    filtered = [...allArticles];
+    twMap = {}; twCount = 0; currentFilter = 'all';
+    document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('on'));
+    document.getElementById('chip-all').classList.add('on');
+    renderAll(filtered);
+    document.getElementById('sN').textContent  = allArticles.length;
+    document.getElementById('sS').textContent  = new Set(allArticles.map(a=>a.source)).size;
+    document.getElementById('sT').textContent  = 0;
+    document.getElementById('sTm').textContent = new Date().toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'});
+    document.getElementById('statsBar').style.display = 'flex';
+    document.getElementById('filterRow').style.display = 'flex';
+  } catch(e) { showError('خطأ في الاتصال: '+e.message); }
+  btn.disabled=false; btn.innerHTML='🔄 سحب الأخبار';
+}
+
+function filterBy(el, topic) {
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on'); currentFilter = topic;
+  filtered = topic==='all' ? [...allArticles] : allArticles.filter(a=>a.topic===topic);
+  twMap = {}; renderAll(filtered);
+  document.getElementById('sN').textContent = filtered.length;
+}
+
+function renderAll(list) {
+  const el = document.getElementById('newsList');
+  if (!list.length) { el.innerHTML='<div class="empty"><div class="empty-icon">🔍</div><p>لا توجد نتائج</p></div>'; return; }
+  el.innerHTML = list.map(a => {
+    const idx = allArticles.indexOf(a);
+    const [bg,fg] = gc(a.source);
+    const isAr = /[\u0600-\u06FF]/.test(a.title);
+    const arTitle = (!isAr && a.titleAr) ? '<div class="card-title-ar">🌐 ' + a.titleAr + '</div>' : '';
+    return '<div class="news-card" data-idx="'+idx+'">' +
+      '<div class="card-top">' +
+        '<span class="badge-src" style="background:'+bg+';color:'+fg+'">'+a.source+'</span>' +
+        '<span class="badge-topic">'+a.topic+'</span>' +
+        '<div class="card-title'+(isAr?' ar':'')+'">'+a.title+'</div>' +
+      '</div>' +
+      arTitle +
+      '<div class="card-meta">' +
+        (a.publishedAt?'<span>🕐 '+ago(a.publishedAt)+'</span>':'') +
+        '<a href="'+a.url+'" target="_blank" class="src-link">🔗 المصدر</a>' +
+      '</div>' +
+      '<div class="tweet-section">' +
+        '<div class="tweet-label">𝕏 أسلوب A</div>' +
+        '<div class="tweet-box" id="tb-a-'+idx+'"><span class="tweet-ph">اضغط أسلوب A</span></div>' +
+      '</div>' +
+      '<div class="tweet-section" id="sec-b-'+idx+'" style="display:none">' +
+        '<div class="tweet-label" style="color:#2e7d32">𝕏 أسلوب B</div>' +
+        '<div class="tweet-box tweet-box-b" id="tb-b-'+idx+'"><span class="tweet-ph">اضغط أسلوب B</span></div>' +
+      '</div>' +
+      '<div id="img-box-'+idx+'"  style="display:none;margin-bottom:10px"></div>' +
+      '<div id="img-box2-'+idx+'" style="display:none;margin-bottom:10px"></div>' +
+      '<div class="card-footer">' +
+        '<button class="btn btn-a"    id="gen-a-'+idx+'"  onclick="genTweet('+idx+',\'a\')">✨ أسلوب A</button>' +
+        '<button class="btn btn-b"    id="gen-b-'+idx+'"  onclick="genTweet('+idx+',\'b\')">📝 أسلوب B</button>' +
+        '<button class="btn btn-out"  id="cp-a-'+idx+'"   onclick="copyT('+idx+',\'a\')"   style="display:none">📋 نسخ A</button>' +
+        '<button class="btn btn-out"  id="cp-b-'+idx+'"   onclick="copyT('+idx+',\'b\')"   style="display:none">📋 نسخ B</button>' +
+        '<button class="btn btn-x"    id="ox-a-'+idx+'"   onclick="openX('+idx+',\'a\')"   style="display:none">𝕏 نشر A</button>' +
+        '<button class="btn btn-x"    id="ox-b-'+idx+'"   onclick="openX('+idx+',\'b\')"   style="display:none">𝕏 نشر B</button>' +
+        '<button class="btn btn-img"  id="img-'+idx+'"    onclick="genImg('+idx+')"         style="display:none">🖼️ صورة AI</button>' +
+        '<button class="btn btn-img2" id="img2-'+idx+'"   onclick="fetchImg('+idx+')"       style="display:none">📰 صورة الخبر</button>' +
+        '<span class="char-info" id="ch-'+idx+'"></span>' +
+      '</div></div>';
+  }).join('');
+}
+
+// ---- توليد التغريدة ----
+async function genTweet(i, style) {
+  const a = allArticles[i];
+  const tbId = style === 'b' ? 'tb-b-'+i : 'tb-a-'+i;
+  const gbId = style === 'b' ? 'gen-b-'+i : 'gen-a-'+i;
+  const tb = document.getElementById(tbId);
+  const gb = document.getElementById(gbId);
+  if (!tb || !gb) return;
+  gb.disabled = true;
+  tb.innerHTML = '<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#888"><span class="spin-b"></span> جاري التوليد...</div>';
+  if (style === 'b') document.getElementById('sec-b-'+i).style.display = 'block';
+
+  const configR = await fetch('/api/config').then(r=>r.json()).catch(()=>({}));
+  const cKey = configR.claude_key || '';
+  if (!cKey) { tb.textContent = '⚠️ مفتاح Claude غير موجود في السيرفر'; gb.disabled=false; return; }
+
+  const newsTitle = a.titleAr || a.title;
+
+  const promptA = 'أنت سعودي متابع للشأن الباكستاني، تكتب تغريدات بالعامية السعودية.\n' +
+    'حوّل هذا الخبر إلى تغريدة سعودية تدافع عن باكستان وتعبّر عن موقفها.\n\n' +
+    'إذا الموضوع "الهند": أسلوب دفاعي قوي يُظهر العدوان الهندي والصمود الباكستاني.\n' +
+    'إذا الموضوع "أفغانستان": أسلوب يُظهر الخطر القادم من الحدود وتضحيات باكستان.\n' +
+    'إذا الموضوع "أمن وتهريب": أسلوب يُظهر حجم التهديد ودور باكستان في مكافحته.\n' +
+    'بقية المواضيع: عامية سعودية دافئة تُظهر القوة والصمود الباكستاني.\n\n' +
+    'الأسلوب: عامية سعودية طبيعية · ابدأ بجملة تشد القارئ · إيموجي واحد أو اثنين بس\n' +
+    'هاشتاقان: #باكستان + هاشتاق عربي مناسب · بين 180 و 240 حرف · نص التغريدة فقط\n\n' +
+    'الموضوع: ' + a.topic + '\nالخبر: ' + newsTitle;
+
+  const promptB = 'أنت كاتب محترف، أسلوبك فصيح سلس قريب من العامية خالٍ من الحشو.\n' +
+    'حوّل هذا الخبر إلى تغريدة رصينة.\n\n' +
+    'الأسلوب:\n' +
+    '- ابدأ بجملة فعلية قصيرة تحمل معنى تُوقف القارئ\n' +
+    '- اروِ الخبر لا تُعلق عليه\n' +
+    '- لغة رصينة بلا مبالغة أو تعجب\n' +
+    '- لا هاشتاقات، لا إيموجي، لا علامات تعجب\n' +
+    '- بين 100 و 180 حرف فقط\n' +
+    '- نص التغريدة فقط بلا مقدمة\n\n' +
+    'الموضوع: ' + a.topic + '\nالخبر: ' + newsTitle;
+
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': cKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 350,
+        messages: [{ role: 'user', content: style === 'b' ? promptB : promptA }]
+      })
+    });
+    const d = await r.json();
+    if (d.error) throw new Error(d.error.message);
+    const tweet = (d.content?.[0]?.text || '').trim();
+    if (!tweet) throw new Error('لم يُرجع نصاً');
+    tb.textContent = tweet;
+    twMap[style+'_'+i] = tweet;
+    document.getElementById('cp-'+style+'-'+i).style.display = 'flex';
+    document.getElementById('ox-'+style+'-'+i).style.display = 'flex';
+    if (style === 'a') {
+      document.getElementById('img-'+i).style.display = 'flex';
+      document.getElementById('img2-'+i).style.display = 'flex';
+    }
+    const len = tweet.length;
+    const ch = document.getElementById('ch-'+i);
+    ch.textContent = len + ' / 280';
+    ch.className = 'char-info' + (len>270?' char-warn':'');
+    twCount++; document.getElementById('sT').textContent = twCount;
+    sessionTweets++; updateSessionCost();
+    logToServer('tweet', TWEET_COST);
+  } catch(e) { tb.textContent = '⚠️ ' + (e.message||'خطأ'); }
+  gb.disabled = false;
+}
+
+async function copyT(i, style) {
+  const key = style+'_'+i;
+  const t = twMap[key]; if (!t) return;
+  try {
+    await navigator.clipboard.writeText(t);
+    const b = document.getElementById('cp-'+style+'-'+i);
+    b.classList.add('btn-ok'); b.textContent = '✓ تم النسخ';
+    setTimeout(()=>{ b.classList.remove('btn-ok'); b.textContent = '📋 نسخ '+style.toUpperCase(); }, 2000);
+  } catch(e) {}
+}
+
+function openX(i, style) {
+  const t = twMap[style+'_'+i];
+  if (t) window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(t),'_blank');
+}
+
+// ---- توليد صورة AI ----
+async function genImg(i) {
+  const a = allArticles[i];
+  const btn = document.getElementById('img-'+i);
+  const box = document.getElementById('img-box-'+i);
+  btn.disabled = true; btn.textContent = '⏳ جاري التوليد...';
+  box.style.display = 'block';
+  box.innerHTML = '<div style="background:#f3f4f6;border-radius:12px;height:180px;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:13px">جاري توليد الصورة...</div>';
+  const configR = await fetch('/api/config').then(r=>r.json()).catch(()=>({}));
+  const falKey = configR.fal_key || '';
+  if (!falKey) { box.innerHTML='<div style="color:#c62828;font-size:12px;padding:8px">⚠️ مفتاح fal غير موجود في السيرفر</div>'; btn.disabled=false; btn.textContent='🖼️ صورة AI'; return; }
+  const topicVisuals = {
+    'حكومة':'Pakistani government officials meeting, Islamabad parliament building',
+    'انتخابات':'Pakistani election voting booths, ballot boxes, Pakistani voters',
+    'دبلوماسية':'diplomatic meeting, Pakistani foreign minister, flags, conference room',
+    'علاقات دولية':'international summit, Pakistani delegation, world leaders',
+    'الهند':'Pakistan India border Line of Control, Pakistani soldiers, Kashmir mountains',
+    'أفغانستان':'Pakistan Afghanistan border Torkham crossing, Pakistani military checkpoint',
+    'أمن وتهريب':'Pakistani security forces anti-smuggling operation, border patrol',
+    'معارضة':'Pakistani political rally, crowd, Lahore gathering',
+    'جيش':'Pakistan Army soldiers, military parade, green uniform, Rawalpindi',
+    'برلمان':'Pakistan National Assembly building Islamabad, parliamentary session',
+    'قضاء':'Pakistan Supreme Court Islamabad, Pakistani judge, courtroom',
+  };
+  const hint = topicVisuals[a.topic] || 'Pakistani political scene, Islamabad';
+  const prompt = 'Editorial news photograph. Scene: '+hint+'. Context: '+(a.title.slice(0,80))+'. Style: photorealistic documentary, natural lighting. South Asian people with Pakistani features, Pakistani flags. No text overlay, no watermark, no European or Western faces.';
+  try {
+    const r = await fetch('https://fal.run/fal-ai/flux/dev', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Key '+falKey },
+      body: JSON.stringify({ prompt, image_size:'landscape_16_9', num_inference_steps:28, num_images:1, enable_safety_checker:true })
+    });
+    const d = await r.json();
+    if (d.detail||d.error) throw new Error(d.detail||d.error);
+    const imgUrl = d.images?.[0]?.url;
+    if (!imgUrl) throw new Error('لم تُولَّد صورة');
+    box.innerHTML = '<div class="img-card"><img src="'+imgUrl+'" alt="صورة التغريدة"></div><div class="img-actions"><a href="'+imgUrl+'" download="pak_'+i+'.jpg" class="btn btn-out" style="text-decoration:none">⬇️ تحميل</a></div>';
+    sessionImages++; updateSessionCost();
+    logToServer('image', IMG_COST);
+    btn.textContent = '🖼️ صورة جديدة';
+  } catch(e) {
+    box.innerHTML = '<div style="color:#c62828;font-size:12px;padding:8px">⚠️ '+(e.message||'خطأ')+'</div>';
+    btn.textContent = '🖼️ صورة AI';
+  }
+  btn.disabled = false;
+}
+
+async function fetchImg(i) {
+  const a = allArticles[i];
+  const btn = document.getElementById('img2-'+i);
+  const box = document.getElementById('img-box2-'+i);
+  btn.disabled=true; btn.textContent='⏳ جاري السحب...';
+  box.style.display='block';
+  try {
+    const r = await fetch('/api/og-image?url='+encodeURIComponent(a.url));
+    const d = await r.json();
+    if (d.image) {
+      box.innerHTML = '<div class="img-card"><img src="'+d.image+'" alt="صورة الخبر"></div><div class="img-actions"><a href="'+d.image+'" target="_blank" class="btn btn-out" style="text-decoration:none">🔗 فتح الصورة</a></div>';
+    } else {
+      box.innerHTML = '<div style="background:#fff8e1;border-radius:10px;padding:10px;font-size:12px;color:#f57f17">⚠️ هذا المصدر لا يوفر صورة مباشرة</div>';
+    }
+  } catch(e) {
+    box.innerHTML = '<div style="color:#c62828;font-size:12px;padding:8px">⚠️ تعذّر سحب الصورة</div>';
+  }
+  btn.disabled=false; btn.textContent='📰 صورة الخبر';
+}
+
+// ---- التكلفة ----
+function updateSessionCost() {
+  const total = (sessionTweets * TWEET_COST) + (sessionImages * IMG_COST);
+  document.getElementById('userBarCost').textContent = 'هذا الشهر: $' + total.toFixed(4);
+}
 
 async function logToServer(action, cost) {
   if (!currentUser) return;
-  fetch('/api/log?username=' + encodeURIComponent(currentUser) + '&action=' + action + '&cost=' + cost);
+  fetch('/api/log?username='+encodeURIComponent(currentUser)+'&action='+action+'&cost='+cost).catch(()=>{});
 }
 
 async function loadMyStats() {
   if (!currentUser) return;
-  const r = await fetch('/api/stats/user?username=' + encodeURIComponent(currentUser));
-  const d = await r.json();
-
-  // الشهر الحالي
-  const now = new Date();
-  const monthNames = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-  document.getElementById('currentMonthLabel').textContent = monthNames[now.getMonth()] + ' ' + now.getFullYear();
-  document.getElementById('monthResetLabel').textContent = 'يتصفر أول كل شهر';
-
-  document.getElementById('cs-tweets').textContent = d.tweets || 0;
-  document.getElementById('cs-images').textContent = d.images || 0;
-  const tc = (d.tweets||0) * 0.0004;
-  const ic = (d.images||0) * 0.025;
-  document.getElementById('cs-cost').textContent = '$' + tc.toFixed(4);
-  document.getElementById('cs-img-cost').textContent = '$' + ic.toFixed(4);
-  document.getElementById('cs-month-total').textContent = '$' + (d.month_cost||0).toFixed(4);
-  document.getElementById('cs-total').textContent = '$' + (d.total_cost||0).toFixed(4);
-  document.getElementById('userBarCost').textContent = 'هذا الشهر: $' + (d.month_cost||0).toFixed(4);
-
-  // رسم بياني شهري
-  if (d.monthly && d.monthly.length) {
-    const maxCost = Math.max(...d.monthly.map(m => m.cost), 0.001);
-    const chart = document.getElementById('monthlyChart');
-    const labels = document.getElementById('monthlyChartLabels');
-    chart.innerHTML = '';
-    labels.innerHTML = '';
-    const barW = Math.floor((chart.parentElement.offsetWidth - 40) / d.monthly.length) - 6;
-    d.monthly.forEach(m => {
-      const pct = (m.cost / maxCost) * 100;
-      const isCurrentMonth = m.month === (now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0'));
-      const bar = document.createElement('div');
-      bar.style.cssText = 'flex:1;background:'+(isCurrentMonth?'#1DA1F2':'#bbdefb')+';border-radius:4px 4px 0 0;min-height:4px;height:'+pct+'%;position:relative;cursor:pointer;transition:opacity 0.15s';
-      bar.title = m.month + ': $' + m.cost + ' (' + m.tweets + ' تغريدة، ' + m.images + ' صورة)';
-      bar.onmouseover = () => bar.style.opacity = '0.8';
-      bar.onmouseout = () => bar.style.opacity = '1';
-      chart.appendChild(bar);
-      const lbl = document.createElement('div');
-      lbl.style.cssText = 'flex:1;font-size:9px;color:#aaa;text-align:center;overflow:hidden';
-      const parts = m.month.split('-');
-      lbl.textContent = monthNames[parseInt(parts[1])-1].slice(0,3);
-      labels.appendChild(lbl);
-    });
-  }
+  try {
+    const r = await fetch('/api/stats/user?username='+encodeURIComponent(currentUser));
+    const d = await r.json();
+    const now = new Date();
+    const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+    document.getElementById('currentMonthLabel').textContent = '📅 ' + months[now.getMonth()] + ' ' + now.getFullYear() + ' — يتصفر أول كل شهر';
+    document.getElementById('cs-tweets').textContent = d.tweets || 0;
+    document.getElementById('cs-images').textContent = d.images || 0;
+    document.getElementById('cs-month').textContent = '$' + (d.month_cost||0).toFixed(4);
+    document.getElementById('cs-total').textContent = '$' + (d.total_cost||0).toFixed(4);
+    document.getElementById('userBarCost').textContent = 'هذا الشهر: $' + (d.month_cost||0).toFixed(4);
+    // رسم بياني
+    if (d.monthly && d.monthly.length) {
+      const chart = document.getElementById('monthlyChart');
+      const labels = document.getElementById('monthlyLabels');
+      chart.innerHTML=''; labels.innerHTML='';
+      const maxC = Math.max(...d.monthly.map(m=>m.cost), 0.001);
+      const curMonth = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+      d.monthly.forEach(m => {
+        const pct = (m.cost/maxC)*100;
+        const isCur = m.month === curMonth;
+        const bar = document.createElement('div');
+        bar.style.cssText='flex:1;background:'+(isCur?'#1DA1F2':'#bbdefb')+';border-radius:4px 4px 0 0;min-height:4px;height:'+pct+'%;cursor:pointer';
+        bar.title = m.month+': $'+m.cost;
+        chart.appendChild(bar);
+        const lbl = document.createElement('div');
+        lbl.style.cssText='flex:1;font-size:9px;color:#aaa;text-align:center;overflow:hidden';
+        lbl.textContent = months[parseInt(m.month.split('-')[1])-1].slice(0,3);
+        labels.appendChild(lbl);
+      });
+    }
+  } catch(e) {}
 }
 
-async function loadAdminStats() {
-  const r = await fetch('/api/stats/all');
-  const data = await r.json();
-  const el = document.getElementById('adminTable');
-  if (!data.length) { el.innerHTML = '<div style="text-align:center;color:#aaa;padding:20px">لا يوجد بيانات بعد</div>'; return; }
-  let html = '<table style="width:100%;border-collapse:collapse;font-size:13px"><tr style="background:#f8f9fa;font-weight:700"><td style="padding:10px">المستخدم</td><td style="padding:10px;text-align:center">تغريدات</td><td style="padding:10px;text-align:center">صور</td><td style="padding:10px;text-align:center">التكلفة</td><td style="padding:10px;text-align:center">آخر نشاط</td></tr>';
-  data.forEach((u, i) => {
-    const bg = i%2===0?'#fff':'#f8f9fa';
-    html += '<tr style="background:'+bg+'"><td style="padding:10px;font-weight:600">'+u.username+'</td><td style="padding:10px;text-align:center">'+u.tweets+'</td><td style="padding:10px;text-align:center">'+u.images+'</td><td style="padding:10px;text-align:center;color:#1DA1F2;font-weight:700">$'+u.total_cost+'</td><td style="padding:10px;text-align:center;color:#999;font-size:11px">'+(u.last_active||'').slice(0,16)+'</td></tr>';
-  });
-  html += '</table>';
-  el.innerHTML = html;
-}
-
-async function loadUserDetail() {
-  const name = document.getElementById('adminUserInput').value.trim();
-  if (!name) return;
-  const r = await fetch('/api/stats/user?username=' + encodeURIComponent(name));
-  const d = await r.json();
-  const el = document.getElementById('userDetail');
-  if (!d.tweets && !d.images) { el.innerHTML = '<div style="color:#aaa;font-size:13px">لا توجد بيانات لهذا المستخدم</div>'; return; }
-  let html = '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">';
-  html += '<div style="background:#f8f9fa;border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;font-weight:800;color:#1DA1F2">'+(d.tweets||0)+'</div><div style="font-size:11px;color:#999">تغريدة</div></div>';
-  html += '<div style="background:#f8f9fa;border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;font-weight:800;color:#6a1b9a">'+(d.images||0)+'</div><div style="font-size:11px;color:#999">صورة</div></div>';
-  html += '<div style="background:#f8f9fa;border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;font-weight:800;color:#2e7d32">$'+(d.total_cost||0)+'</div><div style="font-size:11px;color:#999">إجمالي</div></div>';
-  html += '</div>';
-  if (d.daily && d.daily.length) {
-    html += '<div style="font-size:12px;font-weight:600;color:#555;margin-bottom:8px">آخر 7 أيام:</div>';
-    d.daily.forEach(day => {
-      html += '<div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid #f0f0f0"><span>'+day.date+'</span><span style="color:#1DA1F2;font-weight:600">$'+day.cost+'</span></div>';
-    });
-  }
-  el.innerHTML = html;
-}
-
-// ---- تتبع التكلفة ----
-const TWEET_COST = 0.0004;
-const IMG_COST   = 0.025;
-let sessionTweets = 0, sessionImages = 0;
-
-function trackTweet() {
-  sessionTweets++;
-  updateCostStats();
-  logToServer('tweet', 0.0004);
-  loadMyStats();
-}
-function trackImage() {
-  sessionImages++;
-  updateCostStats();
-  logToServer('image', 0.025);
-  loadMyStats();
-}
-function updateCostStats() {
-  const tc = sessionTweets * TWEET_COST;
-  const ic = sessionImages * IMG_COST;
-  document.getElementById('cs-tweets').textContent = sessionTweets;
-  document.getElementById('cs-images').textContent = sessionImages;
-  document.getElementById('cs-cost').textContent = '$' + tc.toFixed(4);
-  document.getElementById('cs-img-cost').textContent = '$' + ic.toFixed(4);
-  document.getElementById('cs-total').textContent = '$' + (tc + ic).toFixed(4);
-}
-
-// ---- حاسبة الشهر ----
 function calcCost() {
-  const tweets = parseFloat(document.getElementById('calc-tweets').value) || 0;
-  const images = parseFloat(document.getElementById('calc-images').value) || 0;
-  const days   = parseFloat(document.getElementById('calc-days').value) || 25;
-  const tCost  = tweets * days * TWEET_COST;
-  const iCost  = images * days * IMG_COST;
-  const total  = tCost + iCost;
-  document.getElementById('cr-tweets').textContent = '$' + tCost.toFixed(2);
-  document.getElementById('cr-images').textContent = '$' + iCost.toFixed(2);
-  document.getElementById('cr-total').textContent  = '$' + total.toFixed(2);
-  let rec = '';
-  if (total < 3) rec = '✅ الاستخدام خفيف — شحن $5 يكفيك أكثر من شهر';
-  else if (total < 8) rec = '🔵 استخدام متوسط — شحن $10 شهرياً مناسب';
-  else rec = '🟡 استخدام مكثف — فكر في شحن $20 شهرياً';
-  document.getElementById('cr-recommendation').textContent = rec;
+  const t=parseFloat(document.getElementById('calc-tweets').value)||0;
+  const img=parseFloat(document.getElementById('calc-images').value)||0;
+  const d=parseFloat(document.getElementById('calc-days').value)||25;
+  const tC=t*d*TWEET_COST, iC=img*d*IMG_COST, total=tC+iC;
+  document.getElementById('cr-tweets').textContent='$'+tC.toFixed(2);
+  document.getElementById('cr-images').textContent='$'+iC.toFixed(2);
+  document.getElementById('cr-total').textContent='$'+total.toFixed(2);
+  document.getElementById('cr-rec').textContent = total<3?'✅ خفيف — $5 تكفيك أكثر من شهر':total<8?'🔵 متوسط — $10 شهرياً مناسب':'🟡 مكثف — فكر في $20 شهرياً';
   updateBalance();
 }
 
-// ---- متابعة الرصيد ----
 function updateBalance() {
-  const tweets = parseFloat(document.getElementById('calc-tweets').value) || 10;
-  const images = parseFloat(document.getElementById('calc-images').value) || 5;
-  const days   = parseFloat(document.getElementById('calc-days').value) || 25;
-
-  // Claude
-  const claudeBal  = parseFloat(document.getElementById('bal-claude').value) || 0;
-  const dailyClaude = tweets * TWEET_COST;
-  const daysClaude  = dailyClaude > 0 ? Math.floor(claudeBal / dailyClaude) : 999;
-  const pctClaude   = Math.min(100, (claudeBal / 5) * 100);
-  const barClaude   = document.getElementById('bal-claude-bar');
-  barClaude.style.width = pctClaude + '%';
-  barClaude.className = 'balance-fill' + (pctClaude < 20 ? ' danger' : pctClaude < 40 ? ' warn' : '');
-  document.getElementById('bal-claude-info').textContent = 'يكفي تقريباً ' + daysClaude + ' يوم بناءً على استخدامك';
-  const alertClaude = document.getElementById('bal-claude-alert');
-  if (claudeBal < 1) {
-    alertClaude.style.display = 'block'; alertClaude.className = 'alert-box danger';
-    alertClaude.textContent = '🚨 رصيد منخفض جداً! اشحن الآن من console.anthropic.com';
-  } else if (claudeBal < 2) {
-    alertClaude.style.display = 'block'; alertClaude.className = 'alert-box warn';
-    alertClaude.textContent = '⚠️ الرصيد يقترب من النهاية — يُنصح بالشحن قريباً';
-  } else {
-    alertClaude.style.display = 'block'; alertClaude.className = 'alert-box ok';
-    alertClaude.textContent = '✅ الرصيد جيد';
+  const t=parseFloat(document.getElementById('calc-tweets').value)||10;
+  const img=parseFloat(document.getElementById('calc-images').value)||5;
+  const d=parseFloat(document.getElementById('calc-days').value)||25;
+  function setBar(bal, dailyCost, barId, infoId, alertId, maxBal) {
+    const days = dailyCost>0?Math.floor(bal/dailyCost):999;
+    const pct = Math.min(100,(bal/maxBal)*100);
+    const bar = document.getElementById(barId);
+    bar.style.width=pct+'%';
+    bar.className='balance-fill'+(pct<20?' danger':pct<40?' warn':'');
+    document.getElementById(infoId).textContent='يكفي تقريباً '+days+' يوم';
+    const al=document.getElementById(alertId);
+    if (bal<maxBal*0.2){al.style.display='block';al.className='alert-box danger';al.textContent='🚨 رصيد منخفض جداً — اشحن الآن';}
+    else if (bal<maxBal*0.4){al.style.display='block';al.className='alert-box warn';al.textContent='⚠️ الرصيد يقترب من النهاية';}
+    else {al.style.display='block';al.className='alert-box ok';al.textContent='✅ الرصيد جيد';}
   }
-
-  // fal
-  const falBal  = parseFloat(document.getElementById('bal-fal').value) || 0;
-  const dailyFal = images * IMG_COST;
-  const daysFal  = dailyFal > 0 ? Math.floor(falBal / dailyFal) : 999;
-  const pctFal   = Math.min(100, (falBal / 10) * 100);
-  const barFal   = document.getElementById('bal-fal-bar');
-  barFal.style.width = pctFal + '%';
-  barFal.className = 'balance-fill' + (pctFal < 20 ? ' danger' : pctFal < 40 ? ' warn' : '');
-  document.getElementById('bal-fal-info').textContent = 'يكفي تقريباً ' + daysFal + ' يوم بناءً على استخدامك';
-  const alertFal = document.getElementById('bal-fal-alert');
-  if (falBal < 2) {
-    alertFal.style.display = 'block'; alertFal.className = 'alert-box danger';
-    alertFal.textContent = '🚨 رصيد fal منخفض! اشحن من fal.ai/dashboard';
-  } else if (falBal < 4) {
-    alertFal.style.display = 'block'; alertFal.className = 'alert-box warn';
-    alertFal.textContent = '⚠️ رصيد fal يقترب من النهاية';
-  } else {
-    alertFal.style.display = 'block'; alertFal.className = 'alert-box ok';
-    alertFal.textContent = '✅ الرصيد جيد';
-  }
+  const cBal=parseFloat(document.getElementById('bal-claude').value)||0;
+  const fBal=parseFloat(document.getElementById('bal-fal').value)||0;
+  setBar(cBal, t*d*TWEET_COST, 'bal-claude-bar','bal-claude-info','bal-claude-alert', 5);
+  setBar(fBal, img*d*IMG_COST,  'bal-fal-bar',   'bal-fal-info',   'bal-fal-alert',   10);
 }
 
-// ربط tracking بالتغريدات والصور
-const _origGenTweet = genTweet;
-const origGenTweet = genTweet;
+async function loadAdminStats() {
+  try {
+    const r = await fetch('/api/stats/all');
+    const data = await r.json();
+    const el = document.getElementById('adminTable');
+    if (!data.length){el.innerHTML='<div style="text-align:center;color:#aaa;padding:20px">لا يوجد بيانات</div>';return;}
+    let html='<table class="admin-table"><tr><th>المستخدم</th><th>تغريدات</th><th>صور</th><th>التكلفة</th><th>آخر نشاط</th></tr>';
+    data.forEach((u,i)=>{
+      html+='<tr style="background:'+(i%2?'#f8f9fa':'#fff')+'"><td><b>'+u.username+'</b></td><td>'+u.tweets+'</td><td>'+u.images+'</td><td style="color:#1DA1F2;font-weight:700">$'+u.total_cost+'</td><td style="color:#999;font-size:11px">'+(u.last_active||'').slice(0,16)+'</td></tr>';
+    });
+    html+='</table>';
+    el.innerHTML=html;
+  } catch(e){document.getElementById('adminTable').innerHTML='<div style="color:#c62828">خطأ في التحميل</div>';}
+}
+
+async function loadUserDetail() {
+  const name=document.getElementById('adminUserInput').value.trim(); if(!name)return;
+  try {
+    const r=await fetch('/api/stats/user?username='+encodeURIComponent(name));
+    const d=await r.json();
+    const el=document.getElementById('userDetail');
+    if(!d.tweets&&!d.images){el.innerHTML='<div style="color:#aaa;font-size:13px">لا توجد بيانات</div>';return;}
+    let html='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">';
+    html+='<div class="cost-stat"><div class="cost-stat-n">'+d.tweets+'</div><div class="cost-stat-l">تغريدة</div></div>';
+    html+='<div class="cost-stat"><div class="cost-stat-n" style="color:#6a1b9a">'+d.images+'</div><div class="cost-stat-l">صورة</div></div>';
+    html+='<div class="cost-stat"><div class="cost-stat-n" style="color:#2e7d32">$'+d.total_cost+'</div><div class="cost-stat-l">إجمالي</div></div>';
+    html+='</div>';
+    if(d.daily&&d.daily.length){
+      d.daily.forEach(day=>{
+        html+='<div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid #f0f0f0"><span>'+day.date+'</span><span style="color:#1DA1F2;font-weight:600">$'+day.cost+'</span></div>';
+      });
+    }
+    el.innerHTML=html;
+  } catch(e){document.getElementById('userDetail').innerHTML='<div style="color:#c62828">خطأ</div>';}
+}
 </script>
 </body>
 </html>
