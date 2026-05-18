@@ -193,6 +193,14 @@ FEEDS = [
     {"label": "Pakistan Drug Smuggling",    "url": "https://news.google.com/rss/search?q=Pakistan+drug+smuggling+border+seizure&hl=en-US&gl=US&ceid=US:en",       "topic": "أمن وتهريب"},
     {"label": "Pakistan Arms Smuggling",    "url": "https://news.google.com/rss/search?q=Pakistan+arms+weapons+smuggling&hl=en-US&gl=US&ceid=US:en",              "topic": "أمن وتهريب"},
     {"label": "Pakistan Security Threat",   "url": "https://news.google.com/rss/search?q=Pakistan+security+threat+terrorism+attack&hl=en-US&gl=US&ceid=US:en",    "topic": "أمن وتهريب"},
+    # مدن باكستانية
+    {"label": "Islamabad News",     "url": "https://news.google.com/rss/search?q=Islamabad+politics&hl=en-US&gl=US&ceid=US:en",                 "topic": "حكومة"},
+    {"label": "Karachi News",       "url": "https://news.google.com/rss/search?q=Karachi+politics+Pakistan&hl=en-US&gl=US&ceid=US:en",          "topic": "حكومة"},
+    {"label": "Lahore News",        "url": "https://news.google.com/rss/search?q=Lahore+politics+Pakistan&hl=en-US&gl=US&ceid=US:en",           "topic": "حكومة"},
+    {"label": "Punjab Pakistan",    "url": "https://news.google.com/rss/search?q=Punjab+Pakistan+government&hl=en-US&gl=US&ceid=US:en",         "topic": "حكومة"},
+    {"label": "Peshawar KPK",       "url": "https://news.google.com/rss/search?q=Peshawar+KPK+Pakistan+politics&hl=en-US&gl=US&ceid=US:en",     "topic": "حكومة"},
+    {"label": "Rawalpindi News",    "url": "https://news.google.com/rss/search?q=Rawalpindi+Pakistan&hl=en-US&gl=US&ceid=US:en",                "topic": "جيش"},
+    {"label": "Balochistan News",   "url": "https://news.google.com/rss/search?q=Balochistan+Pakistan+security&hl=en-US&gl=US&ceid=US:en",      "topic": "أمن وتهريب"},
 ]
 
 def parse_date(d):
@@ -300,6 +308,59 @@ def translate_titles(articles):
         print(f"Translation error: {e}")
     return articles
 
+def mark_top_articles(articles):
+    """تصنيف الأخبار الأهم: مكررة في 3+ مصادر أو من مصادر tier-1"""
+    import re
+    
+    TIER1 = {"reuters", "ap", "associated press", "bbc", "bloomberg", "al jazeera", 
+             "the guardian", "new york times", "washington post", "ft", "financial times",
+             "dawn", "geo news", "ary news", "the news"}
+    
+    def normalize(title):
+        title = title.lower()
+        title = re.sub(r"[^a-z0-9\u0600-\u06ff\s]", "", title)
+        words = title.split()
+        stopwords = {"the","a","an","in","on","at","to","for","of","and","or","is","are",
+                     "was","were","has","have","pakistan","pakistani","says","said","will"}
+        return set(w for w in words if w not in stopwords and len(w) > 3)
+    
+    def similarity(t1, t2):
+        s1, s2 = normalize(t1), normalize(t2)
+        if not s1 or not s2: return 0
+        return len(s1 & s2) / max(len(s1 | s2), 1)
+    
+    # تجميع الأخبار المتشابهة
+    groups = []
+    used = set()
+    for i, a in enumerate(articles):
+        if i in used: continue
+        group = [i]
+        for j, b in enumerate(articles):
+            if j <= i or j in used: continue
+            if similarity(a.get("title",""), b.get("title","")) > 0.35:
+                group.append(j)
+                used.add(j)
+        used.add(i)
+        groups.append(group)
+    
+    # تصنيف الأهم
+    top_indices = set()
+    for group in groups:
+        sources = {articles[i].get("source","").lower() for i in group}
+        is_tier1 = any(any(t in s for t in TIER1) for s in sources)
+        if len(group) >= 3 or is_tier1:
+            # اختر الخبر الأقوى من المجموعة
+            best = max(group, key=lambda i: (
+                any(any(t in (articles[i].get("source","")).lower() for t in TIER1) for _ in [1]),
+                len(articles[i].get("title",""))
+            ))
+            top_indices.add(best)
+    
+    for i, a in enumerate(articles):
+        a["isTop"] = i in top_indices
+    
+    return articles
+
 HTML_PAGE = open("index.html", "r", encoding="utf-8").read()
 
 class Handler(http.server.BaseHTTPRequestHandler):
@@ -310,6 +371,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
         if self.path == "/api/news":
             articles = fetch_all_news()
             articles = translate_titles(articles)
+            articles = mark_top_articles(articles)
             body = json.dumps({"articles": articles}, ensure_ascii=False).encode("utf-8")
             self.send_response(200)
             self.send_header("Content-Type", "application/json; charset=utf-8")

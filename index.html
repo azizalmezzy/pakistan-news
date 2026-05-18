@@ -192,6 +192,7 @@ select { font-size:13px;padding:8px 12px;border:1px solid #ddd;border-radius:8px
     <div class="filter-chip"    id="chip-الهند"        onclick="filterBy(this,'الهند')" style="background:#fff0f0;border-color:#ffcdd2;color:#c62828">🇮🇳 الهند</div>
     <div class="filter-chip"    id="chip-أفغانستان"    onclick="filterBy(this,'أفغانستان')" style="background:#fff8e1;border-color:#ffe082;color:#f57f17">🇦🇫 أفغانستان</div>
     <div class="filter-chip"    id="chip-أمن وتهريب"   onclick="filterBy(this,'أمن وتهريب')" style="background:#f3e5f5;border-color:#ce93d8;color:#6a1b9a">🚨 أمن وتهريب</div>
+    <div class="filter-chip"    id="chip-الأهم"         onclick="filterByTop(this)" style="background:#fff3e0;border-color:#ffb74d;color:#e65100;font-weight:800">⭐ الأهم</div>
   </div>
 
   <div id="errorBox" style="display:none" class="error-msg"></div>
@@ -374,6 +375,14 @@ async function fetchAll() {
   btn.disabled=false; btn.innerHTML='🔄 سحب الأخبار';
 }
 
+function filterByTop(el) {
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on'); currentFilter = 'الأهم';
+  filtered = allArticles.filter(a=>a.isTop);
+  twMap = {}; renderAll(filtered);
+  document.getElementById('sN').textContent = filtered.length;
+}
+
 function filterBy(el, topic) {
   document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('on'));
   el.classList.add('on'); currentFilter = topic;
@@ -394,6 +403,7 @@ function renderAll(list) {
       '<div class="card-top">' +
         '<span class="badge-src" style="background:'+bg+';color:'+fg+'">'+a.source+'</span>' +
         '<span class="badge-topic">'+a.topic+'</span>' +
+        (a.isTop ? '<span style="background:#FF6B00;color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;flex-shrink:0">⭐ الأهم</span>' : '') +
         '<div class="card-title'+(isAr?' ar':'')+'">'+a.title+'</div>' +
       '</div>' +
       arTitle +
@@ -453,16 +463,15 @@ async function genTweet(i, style) {
     'هاشتاقان: #باكستان + هاشتاق عربي مناسب · بين 180 و 240 حرف · نص التغريدة فقط\n\n' +
     'الموضوع: ' + a.topic + '\nالخبر: ' + newsTitle;
 
-  const promptB = 'أنت كاتب محترف، أسلوبك فصيح سلس قريب من العامية خالٍ من الحشو.\n' +
-    'حوّل هذا الخبر إلى تغريدة رصينة.\n\n' +
-    'الأسلوب:\n' +
-    '- ابدأ بجملة فعلية قصيرة تحمل معنى تُوقف القارئ\n' +
-    '- اروِ الخبر لا تُعلق عليه\n' +
-    '- لغة رصينة بلا مبالغة أو تعجب\n' +
-    '- لا هاشتاقات، لا إيموجي، لا علامات تعجب\n' +
-    '- بين 100 و 180 حرف فقط\n' +
-    '- نص التغريدة فقط بلا مقدمة\n\n' +
-    'الموضوع: ' + a.topic + '\nالخبر: ' + newsTitle;
+  const promptB = 'اكتب تغريدة عربية فصيحة سلسة عن هذا الخبر.\n\n' +
+    'القواعد:\n' +
+    '1. ابدأ بجملة فعلية قصيرة مباشرة تخبر الحدث\n' +
+    '2. لغة هادئة ورصينة بدون تهييج\n' +
+    '3. اذكر المعلومة الأهم فقط\n' +
+    '4. اختم بـ #باكستان\n' +
+    '5. لا تتجاوز 180 حرفاً\n' +
+    '6. اكتب التغريدة مباشرة بدون أي مقدمة\n\n' +
+    'الخبر: ' + newsTitle;
 
   try {
     const r = await fetch('https://api.anthropic.com/v1/messages', {
