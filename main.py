@@ -4,6 +4,7 @@ import json
 import urllib.request
 import xml.etree.ElementTree as ET
 import os
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 PORT = int(os.environ.get("PORT", 8765))
@@ -27,6 +28,13 @@ FEEDS = [
     {"label": "باكستان الهند كشمير",    "url": "https://news.google.com/rss/search?q=%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86+%D8%A7%D9%84%D9%87%D9%86%D8%AF+%D9%83%D8%B4%D9%85%D9%8A%D8%B1&hl=ar&gl=SA&ceid=SA:ar", "topic": "علاقات دولية"},
 ]
 
+def parse_date(d):
+    try:
+        from email.utils import parsedate_to_datetime
+        return parsedate_to_datetime(d).timestamp()
+    except:
+        return 0
+
 def fetch_feed(feed):
     try:
         req = urllib.request.Request(
@@ -47,8 +55,7 @@ def fetch_feed(feed):
                 title = title.rsplit(" - ", 1)[0].strip()
             if title:
                 items.append({"title": title, "source": source, "url": link,
-                              "publishedAt": pub, "topic": feed["topic"],
-                              "sentiment": None, "editorNote": ""})
+                              "publishedAt": pub, "topic": feed["topic"]})
         return items
     except Exception as e:
         print(f"  ✗ [{feed['label']}] {e}")
@@ -59,14 +66,13 @@ def fetch_all_news():
         results = list(ex.map(fetch_feed, FEEDS))
     all_items = [item for r in results for item in r]
 
-    def parse_date(d):
-        try:
-            from email.utils import parsedate_to_datetime
-            return parsedate_to_datetime(d).timestamp()
-        except:
-            return 0
+    # آخر 7 أيام فقط
+    seven_days_ago = time.time() - (7 * 24 * 60 * 60)
+    all_items = [item for item in all_items if parse_date(item["publishedAt"]) >= seven_days_ago]
 
     all_items.sort(key=lambda x: parse_date(x["publishedAt"]), reverse=True)
+
+    # إزالة المكرر
     seen = set()
     unique = []
     for item in all_items:
@@ -74,6 +80,8 @@ def fetch_all_news():
         if key and key not in seen:
             seen.add(key)
             unique.append(item)
+
+    print(f"✅ {len(unique)} خبر من آخر 7 أيام")
     return unique
 
 HTML_PAGE = open("index.html", "r", encoding="utf-8").read()
