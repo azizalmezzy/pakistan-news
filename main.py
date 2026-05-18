@@ -12,6 +12,49 @@ ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 FAL_KEY       = os.environ.get("FAL_API_KEY", "")
 DATABASE_URL  = os.environ.get("DATABASE_URL", "")
 
+# ---- قوائم المصادر ----
+WHITELIST = {
+    # سعودية
+    "spa.gov.sa", "aawsat.com", "asharq.com", "alarabiya.net",
+    "arabnews.com", "okaz.com.sa", "alriyadh.com",
+    # باكستانية
+    "app.com.pk", "dawn.com", "thenews.com.pk", "tribune.com.pk", "brecorder.com",
+    # وكالات دولية محايدة
+    "reuters.com", "afp.com",
+}
+
+BLACKLIST = {
+    # هندية
+    "firstpost.com", "timesofindia.indiatimes.com", "economictimes.indiatimes.com",
+    "ndtv.com", "theprint.in",
+    # إيرانية
+    "tasnimnews.com", "mehrnews.com", "presstv.ir", "irna.ir", "farsnews.ir",
+}
+
+def get_domain(url):
+    """استخرج النطاق من الرابط"""
+    try:
+        from urllib.parse import urlparse
+        domain = urlparse(url).netloc.lower()
+        return domain.replace("www.", "")
+    except:
+        return ""
+
+def is_allowed(url, source=""):
+    """هل المصدر مسموح به؟"""
+    domain = get_domain(url)
+    src = source.lower()
+    # تحقق من القائمة السوداء أولاً
+    for b in BLACKLIST:
+        if b in domain or b in src:
+            return False
+    # إذا القائمة البيضاء فارغة اقبل الكل، وإلا تحقق منها
+    for w in WHITELIST:
+        if w in domain or w in src:
+            return True
+    # مصدر غير معروف — اقبله (لأن Google News يجيب مصادر كثيرة)
+    return True
+
 # ---- قاعدة البيانات ----
 def get_db():
     try:
@@ -237,6 +280,8 @@ def fetch_feed(feed):
             if " - " in title:
                 title = title.rsplit(" - ", 1)[0].strip()
             if title:
+                if not is_allowed(link, source):
+                    continue
                 items.append({"title": title, "source": source, "url": link,
                               "publishedAt": pub, "topic": feed["topic"]})
         return items
