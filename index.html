@@ -193,6 +193,7 @@ select { font-size:13px;padding:8px 12px;border:1px solid #ddd;border-radius:8px
     <div class="filter-chip"    id="chip-أفغانستان"    onclick="filterBy(this,'أفغانستان')" style="background:#fff8e1;border-color:#ffe082;color:#f57f17">🇦🇫 أفغانستان</div>
     <div class="filter-chip"    id="chip-أمن وتهريب"   onclick="filterBy(this,'أمن وتهريب')" style="background:#f3e5f5;border-color:#ce93d8;color:#6a1b9a">🚨 أمن وتهريب</div>
     <div class="filter-chip"    id="chip-الأهم"         onclick="filterByTop(this)" style="background:#fff3e0;border-color:#ffb74d;color:#e65100;font-weight:800">⭐ الأهم</div>
+    <div class="filter-chip"    id="chip-حرب إيران"     onclick="filterBy(this,'حرب إيران')" style="background:#fdecea;border-color:#ef9a9a;color:#b71c1c">🔥 حرب إيران</div>
   </div>
 
   <div id="errorBox" style="display:none" class="error-msg"></div>
@@ -466,6 +467,8 @@ async function genTweet(i, style) {
     toneInstruction = 'الخبر يخص العلاقة بين باكستان والسعودية. أسلوبك فيه فخر واعتزاز وتعظيم — العلاقة السعودية الباكستانية رمز قوة وأخوة لا تتزعزع. اجعل القارئ يحس بعمق هذه الرابطة.\n';
   } else if (isIndiaAfghan) {
     toneInstruction = 'الخبر عن الهند أو أفغانستان. إذا كان الخبر يتحمل السخرية (تصريح متناقض، موقف مضحك، ادعاء مبالغ فيه) استخدم كوميديا سوداء ساخرة بعامية سعودية — لكن ذكية لا رخيصة. إذا الخبر لا يتحمل السخرية (ضحايا، دم، كارثة) ارجع للأسلوب الدفاعي الجاد.\n';
+  } else if (a.topic === 'حرب إيران') {
+    toneInstruction = 'الخبر عن حرب إيران أو مضيق هرمز وعلاقتها بباكستان. باكستان في موقع الوسيط الحكيم بين القوى الكبرى. أسلوبك يُظهر أن باكستان دولة محورية تلعب دوراً دبلوماسياً استراتيجياً في المنطقة، وأن استقرار المنطقة يمر عبر إسلام آباد. اروِ الخبر بفخر دبلوماسي وثقة.\n';
   } else {
     toneInstruction = 'عامية سعودية دافئة تُظهر القوة والصمود الباكستاني.\n';
   }

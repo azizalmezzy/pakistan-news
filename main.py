@@ -201,6 +201,14 @@ FEEDS = [
     {"label": "Peshawar KPK",       "url": "https://news.google.com/rss/search?q=Peshawar+KPK+Pakistan+politics&hl=en-US&gl=US&ceid=US:en",     "topic": "حكومة"},
     {"label": "Rawalpindi News",    "url": "https://news.google.com/rss/search?q=Rawalpindi+Pakistan&hl=en-US&gl=US&ceid=US:en",                "topic": "جيش"},
     {"label": "Balochistan News",   "url": "https://news.google.com/rss/search?q=Balochistan+Pakistan+security&hl=en-US&gl=US&ceid=US:en",      "topic": "أمن وتهريب"},
+    # حرب إيران
+    {"label": "Pakistan Iran War",      "url": "https://news.google.com/rss/search?q=Pakistan+Iran+war+conflict&hl=en-US&gl=US&ceid=US:en",              "topic": "حرب إيران"},
+    {"label": "Pakistan Iran Relations","url": "https://news.google.com/rss/search?q=Pakistan+Iran+relations+diplomacy&hl=en-US&gl=US&ceid=US:en",       "topic": "حرب إيران"},
+    {"label": "Hormuz Strait Pakistan", "url": "https://news.google.com/rss/search?q=Hormuz+strait+Pakistan+oil+trade&hl=en-US&gl=US&ceid=US:en",        "topic": "حرب إيران"},
+    {"label": "Iran US War Pakistan",   "url": "https://news.google.com/rss/search?q=Iran+US+war+Pakistan+mediator&hl=en-US&gl=US&ceid=US:en",           "topic": "حرب إيران"},
+    {"label": "Iran Nuclear Pakistan",  "url": "https://news.google.com/rss/search?q=Iran+nuclear+Pakistan+region&hl=en-US&gl=US&ceid=US:en",            "topic": "حرب إيران"},
+    {"label": "Middle East War Pakistan","url": "https://news.google.com/rss/search?q=Middle+East+war+Pakistan+impact&hl=en-US&gl=US&ceid=US:en",        "topic": "حرب إيران"},
+    {"label": "باكستان إيران عربي",    "url": "https://news.google.com/rss/search?q=%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86+%D8%A5%D9%8A%D8%B1%D8%A7%D9%86&hl=ar&gl=SA&ceid=SA:ar", "topic": "حرب إيران"},
 ]
 
 def parse_date(d):
