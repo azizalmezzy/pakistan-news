@@ -53,6 +53,12 @@ body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2
 .btn-out { background: #fff; color: #333; border: 1px solid #ddd; } .btn-out:hover { background: #f5f5f5; }
 .btn-ok  { background: #e6f4ea; color: #2e7d32; }
 .btn-x   { background: #000; color: #fff; }
+.btn-img { background: #7c3aed; color: #fff; }
+.btn-img:hover { background: #6d28d9; }
+.btn-img:disabled { opacity:.5; cursor:not-allowed; }
+.img-card { border-radius: 12px; overflow: hidden; margin-bottom:8px; }
+.img-card img { width: 100%; display: block; border-radius: 12px; }
+.img-actions { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
 .char-info { font-size: 11px; color: #bbb; margin-right: auto; }
 .char-warn { color: #e53935 !important; font-weight: 700; }
 .empty { text-align: center; padding: 60px 20px; }
@@ -70,7 +76,7 @@ body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2
   <div class="topbar-dot">·</div>
   <div>
     <div class="topbar-title">غرفة الأخبار السياسية — باكستان</div>
-    <div class="topbar-sub">آخر 7 أيام · أخبار سياسية · توليد تغريدات شعبوية</div>
+    <div class="topbar-sub">آخر 7 أيام · أخبار سياسية · توليد تغريدات بالعامية السعودية</div>
   </div>
 </div>
 
@@ -82,8 +88,13 @@ body { font-family: 'Segoe UI', Tahoma, system-ui, sans-serif; background: #f0f2
       <input type="password" id="claudeKey" placeholder="sk-ant-..." />
       <a href="https://console.anthropic.com/settings/keys" target="_blank" class="help-link">← احصل على مفتاح</a>
     </div>
+    <div class="field-row" style="margin-top:10px">
+      <label>fal.ai API Key:</label>
+      <input type="password" id="falKey" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx:..." />
+      <a href="https://fal.ai/dashboard/keys" target="_blank" class="help-link">← API Keys</a>
+    </div>
     <div class="notice">
-      💡 المفتاح يُحفظ في متصفحك فقط ولا يُرسل للسيرفر · الأخبار من آخر 7 أيام فقط.
+      💡 المفاتيح تُحفظ في متصفحك فقط · مفتاح fal لتوليد صور التغريدات · الأخبار من آخر 7 أيام.
     </div>
   </div>
 
@@ -125,10 +136,14 @@ let allArticles = [], filtered = [], twCount = 0, twMap = {}, currentFilter = 'a
 window.onload = () => {
   const k = localStorage.getItem('pak_claude_key');
   if (k) document.getElementById('claudeKey').value = k;
+  const f = localStorage.getItem('pak_fal_key');
+  if (f) document.getElementById('falKey').value = f;
 };
 function saveKey() {
   const k = document.getElementById('claudeKey').value.trim();
   if (k) localStorage.setItem('pak_claude_key', k);
+  const f = document.getElementById('falKey').value.trim();
+  if (f) localStorage.setItem('pak_fal_key', f);
 }
 function showError(msg) {
   const b = document.getElementById('errorBox');
@@ -215,10 +230,12 @@ function renderAll(list) {
       '<hr class="divider">' +
       '<div class="tweet-label">𝕏 التغريدة</div>' +
       '<div class="tweet-box" id="tb-'+idx+'"><span class="tweet-ph">اضغط توليد تغريدة</span></div>' +
+      '<div id="img-box-'+idx+'" style="display:none;margin-bottom:12px"></div>' +
       '<div class="card-footer">' +
         '<button class="btn btn-gen" id="gen-'+idx+'" onclick="genTweet('+idx+')">✨ توليد تغريدة</button>' +
         '<button class="btn btn-out" id="cp-'+idx+'"  onclick="copyT('+idx+')"  style="display:none">📋 نسخ</button>' +
         '<button class="btn btn-x"   id="ox-'+idx+'"  onclick="openX('+idx+')"  style="display:none">𝕏 فتح في X</button>' +
+        '<button class="btn btn-img" id="img-'+idx+'" onclick="genImg('+idx+')"  style="display:none">🖼️ صورة</button>' +
         '<span class="char-info" id="ch-'+idx+'"></span>' +
       '</div></div>';
   }).join('');
@@ -239,17 +256,17 @@ async function genTweet(i) {
       headers:{'Content-Type':'application/json','x-api-key':cKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({ model:'claude-haiku-4-5-20251001', max_tokens:350,
         messages:[{role:'user',content:
-          'أنت كاتب تغريدات سياسية شعبوي وجريء على X (تويتر).\n' +
-          'حوّل هذا الخبر السياسي الباكستاني إلى تغريدة عربية عامية شعبوية.\n\n' +
-          'الأسلوب المطلوب:\n' +
-          '- لغة عامية حماسية مباشرة تخاطب الشارع\n' +
-          '- ابدأ بجملة صادمة أو استفزازية تجذب الانتباه\n' +
-          '- يجوز استخدام علامات تعجب وأسئلة استنكارية\n' +
-          '- اجعلها تبدو وكأنك شخص غاضب أو متحمس يعلّق على الخبر\n' +
-          '- هاشتاقان في النهاية: #باكستان + هاشتاق مناسب\n' +
-          '- لا تذكر المصدر\n' +
-          '- بين 180 و 250 حرفاً\n' +
-          '- نص التغريدة فقط بلا مقدمة\n\n' +
+          'أنت سعودي متابع للشأن الباكستاني، تكتب تغريدات بالعامية السعودية.\n' +
+          'حوّل هذا الخبر إلى تغريدة سعودية تُظهر باكستان بصورة إيجابية أو صامدة.\n\n' +
+          'الأسلوب:\n' +
+          '- عامية سعودية طبيعية: يعني، والله، ما توقعنا، شي يفرح، ما يصير\n' +
+          '- ابدأ بجملة تشد القارئ وتحسسه إن في شي مهم صاير\n' +
+          '- أظهر الجانب الإنساني أو القوة أو الصمود الباكستاني\n' +
+          '- إذا الخبر سلبي: رغم الضغوط باكستان... أو العالم يراقب...\n' +
+          '- إيموجي واحد أو اثنين بس\n' +
+          '- هاشتاقان: #باكستان + هاشتاق عربي مناسب\n' +
+          '- ما تنظّر وما تتهم أحد صراحة\n' +
+          '- بين 180 و 240 حرف، نص التغريدة بس بدون مقدمة\n\n' +
           'الموضوع: ' + a.topic + '\n' +
           'الخبر: ' + a.title
         }]
@@ -262,6 +279,7 @@ async function genTweet(i) {
     tb.textContent = tweet; twMap[i] = tweet;
     document.getElementById('cp-'+i).style.display = 'flex';
     document.getElementById('ox-'+i).style.display = 'flex';
+    document.getElementById('img-'+i).style.display = 'flex';
     const len = tweet.length;
     const ch = document.getElementById('ch-'+i);
     ch.textContent = len + ' / 280';
@@ -283,6 +301,64 @@ async function copyT(i) {
 function openX(i) {
   const t = twMap[i];
   if (t) window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(t),'_blank');
+}
+
+async function genImg(i) {
+  saveKey();
+  const falKey = document.getElementById('falKey').value.trim();
+  if (!falKey) { showError('أدخل مفتاح fal.ai لتوليد الصور'); return; }
+  const a = allArticles[i];
+  const tweet = twMap[i] || '';
+  const imgBtn = document.getElementById('img-'+i);
+  const imgBox = document.getElementById('img-box-'+i);
+  imgBtn.disabled = true;
+  imgBtn.textContent = '⏳ جاري التوليد...';
+  imgBox.style.display = 'block';
+  imgBox.innerHTML = '<div style="background:#f3f4f6;border-radius:12px;height:200px;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:13px">جاري توليد الصورة...</div>';
+
+  // بناء prompt مناسب للخبر
+  const prompt = 'Professional news photo, Pakistani politics, ' + a.topic + ', ' +
+    a.title.slice(0, 80) + ', photorealistic, high quality, editorial style, no text, no watermark';
+
+  try {
+    const r = await fetch('https://fal.run/fal-ai/flux/dev', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Key ' + falKey
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        image_size: 'landscape_16_9',
+        num_inference_steps: 28,
+        num_images: 1,
+        enable_safety_checker: true
+      })
+    });
+    const d = await r.json();
+    if (d.detail || d.error) throw new Error(d.detail || d.error);
+    const imgUrl = d.images?.[0]?.url;
+    if (!imgUrl) throw new Error('لم تُولَّد صورة');
+
+    imgBox.innerHTML =
+      '<div class="img-card"><img src="' + imgUrl + '" alt="صورة التغريدة" /></div>' +
+      '<div class="img-actions">' +
+        '<a href="' + imgUrl + '" download="pakistan_news_' + i + '.jpg" class="btn btn-out" style="text-decoration:none">⬇️ تحميل</a>' +
+        '<button class="btn btn-out" onclick="copyImgUrl(' + i + ',\'' + imgUrl + '\')">🔗 نسخ الرابط</button>' +
+      '</div>';
+    imgBtn.textContent = '🖼️ صورة جديدة';
+  } catch(e) {
+    imgBox.innerHTML = '<div style="color:#c62828;font-size:12px;padding:8px">⚠️ ' + (e.message||'خطأ في توليد الصورة') + '</div>';
+    imgBtn.textContent = '🖼️ صورة';
+  }
+  imgBtn.disabled = false;
+}
+
+async function copyImgUrl(i, url) {
+  try {
+    await navigator.clipboard.writeText(url);
+    alert('تم نسخ رابط الصورة');
+  } catch(e) {}
 }
 </script>
 </body>
