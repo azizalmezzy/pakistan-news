@@ -588,12 +588,11 @@ async function fetchImg(i) {
     const r = await fetch('/api/og-image?url=' + encodeURIComponent(a.url));
     const d = await r.json();
     if (d.image) {
-      box.innerHTML =
-        '<div class="img-card"><img src="' + d.image + '" alt="صورة الخبر" onerror="this.parentElement.parentElement.innerHTML='<div style=\'color:#c62828;font-size:12px;padding:8px\'>⚠️ الصورة غير متاحة من هذا المصدر</div>'" /></div>' +
+      const imgHtml = '<div class="img-card"><img src="' + d.image + '" alt="صورة الخبر" /></div>' +
         '<div class="img-actions">' +
-          '<a href="' + d.image + '" target="_blank" class="btn btn-out" style="text-decoration:none">🔗 فتح الصورة</a>' +
-          '<button class="btn btn-out" onclick="copyImgUrl(' + i + ','' + d.image + '')">📋 نسخ الرابط</button>' +
+        '<a href="' + d.image + '" target="_blank" class="btn btn-out" style="text-decoration:none">🔗 فتح الصورة</a>' +
         '</div>';
+      box.innerHTML = imgHtml;
     } else {
       box.innerHTML = '<div style="background:#fff8e1;border-radius:10px;padding:12px;font-size:12px;color:#f57f17">⚠️ هذا المصدر لا يوفر صورة مباشرة — جرّب "توليد صورة AI" بدلاً</div>';
     }
