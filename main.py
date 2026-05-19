@@ -423,7 +423,8 @@ class Handler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/api/news":
             articles = fetch_all_news()
-            articles = translate_titles(articles)
+            # الترجمة موقوفة مؤقتاً لتجنب rate limit
+            # articles = translate_titles(articles)
             articles = mark_top_articles(articles)
             body = json.dumps({"articles": articles}, ensure_ascii=False).encode("utf-8")
             self.send_response(200)
